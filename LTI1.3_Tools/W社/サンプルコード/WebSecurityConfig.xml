@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:security="http://www.springframework.org/schema/security"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.1.xsd
+              http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.1.xsd">
+
+  <!-- Unsecured pages -->
+  <!-- OIDC開始URLはcontrollerで処理するため、security="none" -->
+  <security:http security="none" pattern="/lti/login_initiations"/>
+
+  <!-- http security  LTI start-->
+  <!-- LTI起動URLはPRE_AUTH_FILTERで処理を行う-->
+  <security:http pattern="/lti/launches"  authentication-manager-ref="authenticationManager">
+    <security:intercept-url pattern="/lti/launches" access="authenticated"/>
+    <security:custom-filter position="PRE_AUTH_FILTER" ref="ltiPreAuthenticatedProcessingFilter"/>
+    <security:csrf disabled="true"/>
+  </security:http>
+
+  <bean id="ltiPreAuthenticatedProcessingFilter" class="LtiPreAuthenticatedProcessingFilter">
+    <property name="authenticationManager" ref="authenticationManager"/>
+    <!-- successRedirectHandler、failureSsoRedirectHandlerを必要に応じて設定 -->
+    <property name="checkForPrincipalChanges" value="true"/>
+    <property name="invalidateSessionOnPrincipalChange" value="false"/>
+  </bean>
+
+  <security:authentication-manager  id="authenticationManager" alias="authenticationManager">
+    <security:authentication-provider ref="ltiUserDetailsAuthenticationProvider"/>
+  </security:authentication-manager>
+
+  <bean id="ltiUserDetailsAuthenticationProvider" class="org.springframework.security.web.authentication.preauth.PreAuthenticatedAuthenticationProvider">
+    <!-- ログイン処理を行う処理クラスを設定する -->
+  </bean>
+  <!-- http security  LTI end-->
+
+</beans>

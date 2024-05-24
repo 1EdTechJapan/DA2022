@@ -1,0 +1,22 @@
+require:
+  - rubocop-rake
+  - rubocop-rspec
+
+inherit_from: .rubocop_todo.yml
+
+AllCops:
+  NewCops: enable
+  TargetRubyVersion: 2.7
+
+Style/StringLiterals:
+  Enabled: true
+  EnforcedStyle: double_quotes
+
+Style/StringLiteralsInInterpolation:
+  Enabled: true
+  EnforcedStyle: double_quotes
+
+Naming/MethodParameterName:
+  AllowedNames:
+    - kw
+    - io

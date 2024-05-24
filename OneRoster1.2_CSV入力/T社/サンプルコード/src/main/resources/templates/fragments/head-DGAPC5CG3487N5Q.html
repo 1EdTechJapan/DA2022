@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+>
+<head th:fragment="head">
+  <!-- Required meta tags -->
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
+
+  <!--<META HTTP-EQUIV="Access-Control-Allow-Origin" CONTENT="http://localhost:8080/adminPage/json-users">-->
+  <meta id="_csrf" name="_csrf" th:content="${_csrf.token}"/>
+  <meta id="_csrf_header" name="_csrf_header" th:content="${_csrf.headerName}"/>
+
+  <base href="../../">
+  <title>group</title>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta property="og:locale" content="en_US"/>
+  <meta property="og:type" content="article"/>
+  <link rel="canonical" href="#"/>
+  <link rel="shortcut icon" th:href="@{assets/media/logos/favicon.ico}"/>
+  <!--begin::Fonts-->
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700"/>
+  <link rel="stylesheet" href="https://kit.fontawesome.com/3fad87bb38.css" crossorigin="anonymous">
+  <!--end::Fonts-->
+  <!--begin::Page Vendor Stylesheets(used by this page)-->
+  <link th:href="@{assets/plugins/custom/fullcalendar/fullcalendar.bundle.css}" th:rel="stylesheet" type="text/css"/>
+  <link th:href="@{assets/plugins/custom/datatables/datatables.bundle.css}" th:rel="stylesheet" type="text/css"/>
+  <!--end::Page Vendor Stylesheets-->
+  <!--begin::Global Stylesheets Bundle(used by all pages)-->
+  <link th:href="@{assets/plugins/global/plugins.bundle.css}" th:rel="stylesheet" type="text/css"/>
+  <link th:href="@{assets/css/style.bundle.css}" th:rel="stylesheet" type="text/css"/>
+  <!--end::Global Stylesheets Bundle-->
+</head>
+<body>
+
+</body>
+</html>

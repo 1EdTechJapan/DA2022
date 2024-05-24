@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/head :: head">
+</head>
+<!--begin::Body-->
+<body id="kt_body"
+      class="header-fixed header-tablet-and-mobile-fixed aside-enabled aside-fixed"
+      style="--kt-toolbar-height:55px;--kt-toolbar-height-tablet-and-mobile:55px">
+<!--begin::Main-->
+<!--begin::Root-->
+<div class="d-flex flex-column flex-root">
+  <!--begin::Page-->
+  <div class="page d-flex flex-row flex-column-fluid">
+    <th:block th:replace="fragments/aside :: aside"/>
+
+    <!--begin::Wrapper-->
+    <div class="wrapper d-flex flex-column flex-row-fluid" id="kt_wrapper">
+
+      <th:block th:replace="fragments/header :: header"/>
+
+      <!--begin::Content-->
+      <div class="content d-flex flex-column flex-column-fluid" id="kt_content">
+        <!--begin::Post-->
+        <div class="post d-flex flex-column-fluid" id="kt_post">
+          <!--begin::Container-->
+          <div id="kt_content_container" class="container-xxl">
+            <!--begin::Card-->
+            <div class="card">
+              <!--begin::Card header-->
+              <div class="card-header border-0 pt-6">
+                <!--begin::Card title-->
+                <div class="card-title">
+                  <!--begin::Search-->
+                  <div class="d-flex align-items-center position-relative my-1">
+                    <!--begin::Svg Icon | path: icons/duotune/general/gen021.svg-->
+                    <span class="svg-icon svg-icon-1 position-absolute ms-6">
+													<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                               fill="none">
+														<rect opacity="0.5" x="17.0365" y="15.1223" width="8.15546" height="2" rx="1"
+                                  transform="rotate(45 17.0365 15.1223)" fill="black"/>
+														<path
+                                d="M11 19C6.55556 19 3 15.4444 3 11C3 6.55556 6.55556 3 11 3C15.4444 3 19 6.55556 19 11C19 15.4444 15.4444 19 11 19ZM11 5C7.53333 5 5 7.53333 5 11C5 14.4667 7.53333 17 11 17C14.4667 17 17 14.4667 17 11C17 7.53333 14.4667 5 11 5Z"
+                                fill="black"/>
+													</svg>
+												</span>
+                    <!--end::Svg Icon-->
+                    <input type="text" data-kt-user-table-filter="search"
+                           class="form-control form-control-solid w-250px ps-14" placeholder="Search user"/>
+                  </div>
+                  <!--end::Search-->
+                </div>
+              </div>
+              <!--end::Card header-->
+              <!--begin::Card body-->
+              <div class="card-body py-4">
+                <!--begin::Table-->
+                <table class="table align-middle table-row-dashed fs-7 gy-5" id="kt_table_users">
+                  <!--begin::Table head-->
+                  <thead>
+                  <!--begin::Table row-->
+                  <tr class="text-start text-muted fw-bolder fs-7 text-uppercase gs-0 row-cols-auto">
+                    <th class="col-auto">ID</th>
+                    <th class="col-auto">User</th>
+                    <th class="col-auto">Role</th>
+                    <th class="col-auto">LoginId</th>
+                    <th class="col-auto">Username</th>
+                    <th class="col-auto">Identifier</th>
+                    <th class="col-auto">OrgSourcedIds</th>
+                    <th class="col-auto">Name</th>
+                    <th class="col-auto">Grades</th>
+                    <th class="col-auto">ClassSourcedId</th>
+                    <th class="col-auto">Title</th>
+                    <th class="col-auto">FileId</th>
+                  </tr>
+                  <!--end::Table row-->
+                  </thead>
+                  <!--end::Table head-->
+                  <!--begin::Table body-->
+                  <tbody class="text-gray-600 fw-bold">
+                  <!--begin::Table row-->
+                  <tr th:each="user: ${items}">
+                    <!--begin::Checkbox-->
+                    <td th:text="${user.getId()}"></td>
+                    <!--end::Checkbox-->
+                    <!--begin::User=-->
+                    <td class="d-flex align-items-center">
+                      <!--begin:: Avatar -->
+                      <div class="symbol symbol-circle symbol-50px overflow-hidden me-3">
+                        <a href="#">
+                          <div class="symbol-label fs-4 bg-light-danger text-danger"
+                               th:class="'symbol-label fs-3 bg-light-' + ${user.getAvatarColor()} + ' text-'+${user.getAvatarColor()}"
+                               th:text="${user.getAvatarText()}"></div>
+                        </a>
+                      </div>
+                      <!--end::Avatar-->
+                      <!--begin::User details-->
+                      <div class="d-flex flex-column">
+                        <a href="#"
+                           class="text-gray-800 text-hover-primary mb-1" th:text="${user.getFullName()}"></a>
+                        <span th:text="${user.getEmail()}"></span>
+                      </div>
+                      <!--begin::User details-->
+                    </td>
+                    <!--end::User=-->
+                    <!--begin::Role=-->
+                    <td th:text="${user.getRole()}"></td>
+                    <!--end::Role=-->
+                    <!--begin::Last login=-->
+                    <td th:text="${user.getLoginId()}"></td>
+                    <!--end::Last login=-->
+                    <!--begin::Two step=-->
+                    <td th:text="${user.getUsername()}"></td>
+                    <!--end::Two step=-->
+                    <!--begin::Joined-->
+                    <td th:text="${user.identifier}"></td>
+                    <!--begin::Joined-->
+                    <!--begin::Action=-->
+                    <td th:text="${user.orgSourcedIds}"></td>
+                    <td th:text="${user.name}"></td>
+                    <td th:text="${user.grades}"></td>
+                    <td th:text="${user.classSourcedId}"></td>
+                    <td th:text="${user.title}"></td>
+                    <td th:text="${user.fileUploadId}"></td>
+                    <!--end::Action=-->
+                  </tr>
+                  <!--end::Table row-->
+                  </tbody>
+                  <!--end::Table body-->
+                </table>
+                <!--end::Table-->
+                <ul class="pagination" th:if="${items.getTotalPages() != 0}">
+                  <li th:class="${items.number == 0} ? 'page-item previous disabled' : 'page-item previous' ">
+                    <a th:if="${not #strings.isEmpty(propertyValue)}"
+                       class="page-link"
+                       th:href="@{/adminPage/users(property=${property},
+                       propertyValue=${propertyValue}, pageSize=${selectedPageSize}, page=${items.number})}">
+                      <i class="previous"></i>
+                    </a>
+                    <a th:if="${#strings.isEmpty(propertyValue)}"
+                       class="page-link"
+                       th:href="@{/adminPage/users(pageSize=${selectedPageSize}, page=${items.number})}">
+                      <i class="previous"></i>
+                    </a>
+                  </li>
+                  <li th:class="${items.number == (page -1)} ? 'active page-item pointer-disabled' : 'page-item'"
+                      th:each="page : ${#numbers.sequence(pager.getStartPage(), pager.getEndPage())}">
+                    <a th:if="${not #strings.isEmpty(propertyValue) }"
+                       th:href="@{/adminPage/users(property=${property},
+                       propertyValue=${propertyValue}, pageSize=${selectedPageSize}, page=${page})}"
+                       class="page-link"
+                       th:text="${page}"></a>
+                    <a th:if="${#strings.isEmpty(propertyValue) }"
+                       th:href="@{/adminPage/users(pageSize=${selectedPageSize}, page=${page})}"
+                       class="page-link"
+                       th:text="${page}"></a>
+                  </li>
+                  <li th:class="${items.number + 1 == items.totalPages} ? 'page-item next disabled' : 'page-item next' ">
+                    <a th:if="${not #strings.isEmpty(propertyValue)}"
+                       class="page-link"
+                       th:href="@{/adminPage/users(property=${property},
+                       propertyValue=${propertyValue}, pageSize=${selectedPageSize}, page=${items.number +2})}">
+                      <i class="next"></i>
+                    </a>
+                    <a th:if="${#strings.isEmpty(propertyValue)}"
+                       class="page-link"
+                       th:href="@{/adminPage/users(pageSize=${selectedPageSize}, page=${items.number +2})}">
+                      <i class="next"></i>
+                    </a>
+                  </li>
+                </ul>
+              </div>
+              <!--end::Card body-->
+            </div>
+            <!--end::Card-->
+          </div>
+          <!--end::Container-->
+        </div>
+        <!--end::Post-->
+      </div>
+      <!--end::Content-->
+      <!--begin::Footer-->
+      <th:block th:replace="fragments/footer :: footer"/>
+      <!--end::Footer-->
+    </div>
+    <!--end::Wrapper-->
+  </div>
+  <!--end::Page-->
+</div>
+<!--end::Root-->
+
+<!--begin::Scrolltop-->
+<div id="kt_scrolltop" class="scrolltop" data-kt-scrolltop="true">
+  <!--begin::Svg Icon | path: icons/duotune/arrows/arr066.svg-->
+  <span class="svg-icon">
+				<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+					<rect opacity="0.5" x="13" y="6" width="13" height="2" rx="1" transform="rotate(90 13 6)"
+                fill="black"/>
+					<path
+              d="M12.5657 8.56569L16.75 12.75C17.1642 13.1642 17.8358 13.1642 18.25 12.75C18.6642 12.3358 18.6642 11.6642 18.25 11.25L12.7071 5.70711C12.3166 5.31658 11.6834 5.31658 11.2929 5.70711L5.75 11.25C5.33579 11.6642 5.33579 12.3358 5.75 12.75C6.16421 13.1642 6.83579 13.1642 7.25 12.75L11.4343 8.56569C11.7467 8.25327 12.2533 8.25327 12.5657 8.56569Z"
+              fill="black"/>
+				</svg>
+			</span>
+  <!--end::Svg Icon-->
+</div>
+<!--end::Scrolltop-->
+
+<div th:replace="fragments/jsScripts :: scripts"></div>
+</body>
+<!--end::Body-->
+</html>

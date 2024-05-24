@@ -1,0 +1,31 @@
+{
+    "http://localhost": {
+        "client_id": "d42df408-70f5-4b60-8274-6c98d3b9468d",
+        "auth_login_url": "http://localhost/platform/login.php",
+        "auth_token_url": "http://localhost/platform/token.php",
+        "key_set_url": "https://stg.aiaimonkey.com/lti/platform/jwks",
+        "private_key_file": "/private.key",
+        "deployment": [
+            "8c49a5fa-f955-405e-865f-3d7e959e809f"
+        ]
+    },
+    "https://ltiadvantagevalidator.imsglobal.org": {
+        "client_id": "imstester_90e1f32",
+        "auth_login_url": "https://ltiadvantagevalidator.imsglobal.org/ltitool/oidcauthurl.html",
+        "auth_token_url": "https://ltiadvantagevalidator.imsglobal.org/ltitool/authcodejwt.html",
+        "key_set_url": "https://oauth2server.imsglobal.org/jwks",
+        "private_key_file": "/imstester_90e1f32.key",
+        "deployment": [
+            "testdeploy"
+        ]
+    },
+    "https://api.ltiorc.edustd.jp/platform/LTDPFG56CJ": {
+        "client_id": "mv9WowO",
+        "auth_login_url": "https://api.ltiorc.edustd.jp/platform/auth/LTDPFG56CJ",
+        "key_set_url": "https://api.ltiorc.edustd.jp/platform/jwks",
+        "private_key_file": "/private.key",
+        "deployment": [
+            "S_B113110000034"
+        ]
+    }
+}

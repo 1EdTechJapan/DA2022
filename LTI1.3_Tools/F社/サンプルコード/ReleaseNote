@@ -1,0 +1,24 @@
+■動作環境
+　OS：Amazon Linux
+　Webサーバ：Apache
+　言語：PHP
+　フレームワーク：Laravel
+
+
+■LTIライブラリイ
+　1EdTech/lti-1-3-php-library 
+　https://github.com/1EdTech/lti-1-3-php-library
+
+
+■ファイル構成
+　app/Http/Controllers/LtiController.php　　　Open Id Connect Login Request&LTI Message Launches
+　app/Http/Shares/LtiDatabase.php　　　　　　　Accessing Registration Data
+　app/Http/Shares/private.key　　　　　　　　　PrivateKey
+　app/Http/Shares/configs/lti.json　　　　　　Platform Config
+
+
+■実行準備
+　①PrivateKeyを作成する
+　②app/Http/Shares/configs/lti.json
+　　にPlatformの情報を記載する
+

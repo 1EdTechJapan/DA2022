@@ -1,0 +1,13 @@
+{
+    "iss_example": [{
+        "default": true,
+        "client_id": "example_client",
+        "auth_login_url": "https://example.com/login",
+        "auth_token_url": "https://example.com/auth",
+        "key_set_url": "https://example.com/jwks",
+        "key_set": null,
+        "private_key_file": "tool_private.key",
+        "public_key_file": "tool_public.key",
+        "deployment_ids": ["example_deploymet"]
+    }]
+}

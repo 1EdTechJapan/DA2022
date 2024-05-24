@@ -1,0 +1,18 @@
+{
+    "https://api.ltiorc.edustd.jp/platform/LT3GEJT5FN": [
+        {
+            "default": true,
+            "client_id": "465wuZQ",
+            "auth_login_url": "https://api.ltiorc.edustd.jp/platform/auth/LT3GEJT5FN",
+            "auth_token_url": null,
+            "auth_audience": "https://api.ltiorc.edustd.jp/platform/LT3GEJT5FN",
+            "key_set_url": "https://api.ltiorc.edustd.jp/platform/jwks",
+            "key_set": null,
+            "private_key_file": "private.key",
+            "public_key_file": "public.key",
+            "deployment_ids": [
+                "S_B113110000034"
+            ]
+        }
+    ]
+}

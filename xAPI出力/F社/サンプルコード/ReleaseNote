@@ -1,0 +1,32 @@
+■動作環境
+　OS：Amazon Linux
+　Webサーバ：Apache
+　言語：PHP
+　フレームワーク：Laravel
+　データベース：MySQL
+
+
+■テーブル構成（データベース）
+・users：ユーザー情報を格納するテーブル
+・questions：質問情報を格納するテーブル
+・question_choices：質問選択肢情報を格納するテーブルで、questionsのレコードを一意に識別するIDを保持
+・user_answers：質問に対するユーザー回答（質問選択肢とコメント）情報を格納するテーブルで、usersとquestionsとquestion_choicesのレコードを一意に識別するIDを保持
+※テーブル定義はDDL/DDL.sql参照
+
+
+■ファイル構成
+　app/Http/Controllers/XapiController.php　　　xAPIログ出力機能
+
+
+■ソースコード説明
+・質問を一意に識別するID（質問ID）をパラメータに指定
+・指定された質問IDに対するユーザーの回答（質問選択肢とコメント）をデータベースから取得しjsonファイルに出力
+・今回の検証用にAPIとして実行できるように実装
+
+
+■実行手順
+　①テストAPIを実行
+　　URL：https://【ドメイン名】/xapi/test/output_answer_log
+　　POST値：question_id（質問ID）
+　　返却値：質問に対するユーザー回答ログ（json形式）
+　②出力されたjsonファイルを確認

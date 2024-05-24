@@ -1,0 +1,17 @@
+
+◆動作環境
+   OS            : Windows Server 2019 Standard
+   ミドルウェア  : Apache Tomcat V7.0
+                 : Apache V2.4
+                 : PostgreSQL 12
+
+
+◆使い方
+  Java Servletとして展開する。
+  LtiOidcServletを呼び出す。
+
+
+◆外部参照ライブラリ
+   jjwt 0.9.1                    https://jar-download.com/artifacts/io.jsonwebtoken/jjwt
+   nimbus-jose-jwt 9.0.1         https://jar-download.com/artifacts/com.nimbusds/nimbus-jose-jwt
+   guava 31.1                    https://jar-download.com/artifacts/com.google.guava/guava

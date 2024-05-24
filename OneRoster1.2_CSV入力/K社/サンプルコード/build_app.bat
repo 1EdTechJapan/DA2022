@@ -1,0 +1,2 @@
+python cxfreeze_setup_oneroster_csv_converter.py build_exe
+pyinstaller oneroster_csv_converter.spec

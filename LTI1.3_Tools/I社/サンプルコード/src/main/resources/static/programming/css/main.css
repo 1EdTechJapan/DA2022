@@ -1,0 +1,1295 @@
+
+/* base format
+================================================= */
+
+* {
+    margin:0;
+    padding:0;
+    outline:none;
+    font:inherit;
+    font-weight:inherit;
+    font-family:inherit;
+    text-size-adjust:none;
+    -webkit-text-size-adjust:none;
+    -moz-text-size-adjust:none;
+    -ms-text-size-adjust:none;
+    -o-text-size-adjust:none;
+    box-sizing:border-box;
+    -webkit-box-sizing:border-box;
+    -moz-box-sizing:border-box;
+    -ms-box-sizing:border-box;
+    -o-box-sizing:border-box;
+}
+
+article,
+aside,
+details,
+figcaption,
+figure,
+footer,
+header,
+hgroup,
+menu,
+nav,
+section,
+summary {
+    display:block;
+}
+
+a,img {
+    border:none;
+}
+
+img {
+    vertical-align:middle;
+    box-sizing:content-box;
+    -webkit-box-sizing:content-box;
+    -moz-box-sizing:content-box;
+    -ms-box-sizing:content-box;
+    -o-box-sizing:content-box;
+}
+
+img.auto {
+    width:auto;
+    height:auto;
+}
+
+label,
+button {
+    cursor:pointer;
+}
+
+sup {
+    font-size:54.5%;
+    font-weight:normal;
+    vertical-align:super;
+    line-height:normal;
+}
+
+pre,
+.pre {
+    position:relative;
+    overflow:auto;
+    white-space:pre-wrap;
+    white-space:-pre-wrap;
+    white-space:-webkit-pre-wrap;
+    white-space:-moz-pre-wrap;
+    word-wrap:break-word;
+    tab-size:2;
+    -webkit-tab-size:2;
+    -moz-tab-size:2;
+    -ms-tab-size:2;
+    -o-tab-size:2;
+}
+
+pre img,
+.pre img {
+max-width:100%;
+height:auto;
+}
+
+.nobr {
+white-space:nowrap;
+}
+
+a:hover,
+input[type="submit"]:hover,
+input[type="reset"]:hover,
+input[type="button"]:hover,
+input[type="image"]:hover,
+button:hover,
+*.button:hover {
+    opacity:.8;
+    transition:.16s ease-in-out;
+    -webkit-transition:.16s ease-in-out;
+    -moz-transition:.16s ease-in-out;
+    -ms-transition:.16s ease-in-out;
+    -o-transition:.16s ease-in-out;
+}
+
+a:active,
+input[type="submit"]:active,
+input[type="reset"]:active,
+input[type="button"]:active,
+input[type="image"]:active,
+button:active,
+*.button:active {
+opacity:.5;
+}
+
+.ie7 a:hover,
+.ie7 input[type="submit"]:hover,
+.ie7 input[type="reset"]:hover,
+.ie7 input[type="button"]:hover,
+.ie7 input[type="image"]:hover,
+.ie7 button:hover,
+.ie7 *.button:hover,
+.ie7 a:active,
+.ie7 input[type="submit"]:active,
+.ie7 input[type="reset"]:active,
+.ie7 input[type="button"]:active,
+.ie7 input[type="image"]:active,
+.ie7 button:active,
+.ie7 *.button:active,
+.ie8 a:hover,
+.ie8 input[type="submit"]:hover,
+.ie8 input[type="reset"]:hover,
+.ie8 input[type="button"]:hover,
+.ie8 input[type="image"]:hover,
+.ie8 button:hover,
+.ie8 *.button:hover,
+.ie8 a:active,
+.ie8 input[type="submit"]:active,
+.ie8 input[type="reset"]:active,
+.ie8 input[type="button"]:active,
+.ie8 input[type="image"]:active,
+.ie8 button:active,
+.ie8 *.button:active,
+.iphone a:hover,
+.iphone input[type="submit"]:hover,
+.iphone input[type="reset"]:hover,
+.iphone input[type="button"]:hover,
+.iphone input[type="image"]:hover,
+.iphone button:hover,
+.iphone *.button:hover,
+.iphone a:active,
+.iphone input[type="submit"]:active,
+.iphone input[type="reset"]:active,
+.iphone input[type="button"]:active,
+.iphone input[type="image"]:active,
+.iphone button:active,
+.iphone *.button:active,
+.ipad a:hover,
+.ipad input[type="submit"]:hover,
+.ipad input[type="reset"]:hover,
+.ipad input[type="button"]:hover,
+.ipad input[type="image"]:hover,
+.ipad button:hover,
+.ipad *.button:hover,
+.ipad a:active,
+.ipad input[type="submit"]:active,
+.ipad input[type="reset"]:active,
+.ipad input[type="button"]:active,
+.ipad input[type="image"]:active,
+.ipad button:active,
+.ipad *.button:active,
+.ipod a:hover,
+.ipod input[type="submit"]:hover,
+.ipod input[type="reset"]:hover,
+.ipod input[type="button"]:hover,
+.ipod input[type="image"]:hover,
+.ipod button:hover,
+.ipod *.button:hover,
+.ipod a:active,
+.ipod input[type="submit"]:active,
+.ipod input[type="reset"]:active,
+.ipod input[type="button"]:active,
+.ipod input[type="image"]:active,
+.ipod button:active,
+.ipod *.button:active,
+.android a:hover,
+.android input[type="submit"]:hover,
+.android input[type="reset"]:hover,
+.android input[type="button"]:hover,
+.android input[type="image"]:hover,
+.android button:hover,
+.android *.button:hover,
+.android a:active,
+.android input[type="submit"]:active,
+.android input[type="reset"]:active,
+.android input[type="button"]:active,
+.android input[type="image"]:active,
+.android button:active,
+.android *.button:active {
+    opacity:1;
+    transition:none 0 ease 0;
+    -webkit-transition:none 0 ease 0;
+    -moz-transition:none 0 ease 0;
+    -ms-transition:none 0 ease 0;
+    -o-transition:none 0 ease 0;
+}
+
+
+/* 汎用クラス
+================================================= */
+
+.clr {
+    display:inline-block;
+}
+
+.clr:after {
+    content:" ";
+    display:block;
+    visibility:hidden;
+    clear:both;
+    height:0;
+    font-size:0;
+    line-height:0;
+    position:relative;
+    overflow:hidden;
+}
+
+* html .clr {
+    height:1%;
+}
+
+.clr {
+    display:block;
+}
+
+*.clear {
+    clear:both;
+}
+
+br.clear {
+    clear:both;
+    display:inline;
+}
+
+div.clear {
+    font:1px/1px sans-serif;
+    line-height:1px;
+    height:1px;
+}
+
+.left {
+    float: left;
+}
+
+.right {
+    float: right;
+}
+
+.mgt30 {
+    margin-top: 30px;
+}
+
+.full-width {
+    width: 100%;
+}
+
+.w200 {
+    width: 200px;
+}
+
+/* タグスタイル定義
+================================================= */
+
+a:link,
+a:visited,
+a:active,
+a:hover {
+    color:#01a5c8;
+    text-decoration:none;
+}
+
+a:hover {
+    text-decoration:none;
+    color:#01a5c8;
+}
+
+a:visited {
+    color:#01a5c8;
+}
+
+.ie7 a:hover,
+.ie8 a:hover,
+.iphone a:hover,
+.ipad a:hover,
+.ipod a:hover,
+.android a:hover {
+    text-decoration:none;
+}
+
+.ie7 a:hover,
+.ie8 a:hover,
+.iphone a:hover,
+.ipad a:hover,
+.ipod a:hover,
+.android a:hover {
+    text-decoration:none;
+}
+
+.ie8 a.newwindow:after {
+    margin-left:5px;
+    width:14px;
+    height:12px;
+    line-height:12px;
+    vertical-align:middle;
+    display:inline-block;
+}
+
+b,
+*.b {
+    font-weight:normal;
+}
+
+strong,
+*.strong {
+    font-weight:bold;
+}
+
+em {
+    font-weight:normal;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    font-weight:normal;
+}
+
+small,
+*.small {
+    font-size:85.75%;
+}
+
+p,
+.p,
+li,
+dt,
+dd,
+th,
+td {
+    font-size:100%;
+    line-height:168%;
+    line-break:strict;
+}
+
+p {
+    text-align:justify;
+}
+
+.p {
+    display:block;
+}
+
+ul,
+ol {
+    list-style:none;
+}
+
+ul.normal {
+    list-style-type: disc;
+    padding-left: 1.5em;
+}
+
+p.notes,
+span.notes,
+ul.notes li {
+    color: #ef002d;
+}
+
+/* table
+--------------------------------------------------*/
+
+th,
+td,
+.th,
+.td {
+    padding:0;
+    font-weight:normal;
+    text-align:left;
+    vertical-align:top;
+}
+
+th.align-r,
+td.align-r,
+.th.align-r,
+.td.align-r {
+    text-align:right;
+}
+
+th.valign-m,
+td.valign-m,
+.th.valign-m,
+.td.valign-m {
+    vertical-align:middle;
+}
+
+.table {
+    display:table;
+}
+
+.tr {
+    display:table-row;
+}
+
+.th,
+.td {
+    display:table-cell;
+}
+
+/* basic */
+
+.basic {
+    border-collapse: collapse;
+    border-spacing: 0;
+    border: 1px solid #d5dcdc;
+    empty-cells: show;
+    margin-top: 1px;
+}
+
+.basic th,
+.basic td {
+    padding: 8px 12px;
+    vertical-align: middle;
+    font-size: 14px;
+    border-top: 1px solid #ddd;
+}
+
+.basic th {
+    background-color: #e9ebee;
+}
+
+.basic.row th {
+    background-color: transparent;
+}
+
+.basic tr {
+    background-color: #f6f7f8;
+}
+
+.basic tr:nth-child(even) {
+    background-color: #fff;
+}
+
+.bw {
+    word-wrap:break-word;
+    overflow-wrap:break-word;
+}
+
+/* text
+--------------------------------------------------*/
+
+ul li p,
+ol li p {
+    font-size:100%;
+}
+
+.align-center {
+    text-align:center;
+}
+
+.align-left {
+    text-align:left;
+}
+
+.align-right {
+    text-align:right;
+}
+
+.align-top {
+    vertical-align:top;
+}
+
+.align-middle {
+    vertical-align:middle;
+}
+
+.align-bottom {
+    vertical-align:bottom;
+}
+
+/* input
+--------------------------------------------------*/
+
+.checkbox,
+.radio {
+    position: relative;
+    display: block;
+    padding-top: 3px;
+}
+
+.checkbox label,
+.radio label {
+    padding-left: 20px;
+}
+
+.checkbox input[type=checkbox],
+.radio input[type=radio] {
+    margin-left: -20px;
+    position: absolute;
+}
+
+input[type=checkbox],
+input[type=radio] {
+    margin: 4px 0 0;
+    line-height: normal;
+}
+
+input[type=text],
+input[type=password],
+input[type=number],
+textarea {
+    margin: 0;
+    padding: 8px;
+    font-size: 14px;
+    line-height: 20px;
+    color: #333;
+    border: 1px solid #ccc;
+    box-sizing: border-box;
+    box-shadow: 0 1px 0 rgba(0,0,0,.1) inset;
+    -webkit-box-shadow: 0 1px 0 rgba(0,0,0,.1) inset;
+    -moz-box-shadow: 0 1px 0 rgba(0,0,0,.1) inset;
+    /* box-shadow: 0 1px 0 rgba(0,0,0,.1) inset; */
+}
+
+input[type="button"],
+input[type="submit"] {
+    -webkit-appearance: none;
+}
+
+input.sbmbtn {
+    color: #fff;
+    font-size: 16px;
+    padding: 10px 20px;
+    border-radius: 3px;
+    border-width: 0;
+    background-color: #01a5c8;
+    cursor: pointer;
+    display: inline-block;
+}
+
+input.btn {
+    color: #fff;
+    font-size: 12px;
+    line-height: 12px;
+    padding: 8px 15px;
+    border-radius: 3px;
+    border-width: 0;
+    background-color: #01a5c8;
+    cursor: pointer;
+    display: inline-block;
+}
+
+a.btn {
+    color: #fff;
+    font-size: 12px;
+    padding: 8px 15px;
+    border-width: 0;
+    background-color: #01a5c8;
+    border-radius: 3px;
+    cursor: pointer;
+    display: inline-block;
+    line-height: 100%;
+}
+
+select.form-control {
+    height: 34px;
+    padding: 2px 8px;
+    font-size: 14px;
+    line-height: 1.42857143;
+    color: #222;
+    background-color: #fff;
+    background-image: none;
+    border: 1px solid #ccc;
+    border-radius: 0;
+    -webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,.075);
+    box-shadow: inset 0 1px 1px rgba(0,0,0,.075);
+    -webkit-transition: border-color ease-in-out .15s,-webkit-box-shadow ease-in-out .15s;
+    -o-transition: border-color ease-in-out .15s,box-shadow ease-in-out .15s;
+    transition: border-color ease-in-out .15s,box-shadow ease-in-out .15s;
+}
+
+input.off {
+    color: #555;
+    border-color: #555;
+    background-color: transparent;
+}
+
+.required {
+    margin-left: 15px;
+    color: #fff;
+    background-color: #ef002d;
+    font-size: 10px;
+    line-height: 1em;
+    padding: 3px 5px;
+    white-space: nowrap;
+    border-radius: 2px; /* CSS3 */
+    -webkit-border-radius: 2px; /* Safari,Google Chrome用 */
+    -moz-border-radius: 2px; /* Firefox用 */
+}
+
+/* レイアウト定義
+================================================= */
+
+/* clearfix */
+
+.header,
+.wrap,
+ol.topic-path,
+.colWrap,
+.dlList,
+.userSelect,
+ul.rowList {
+    display: inline-block;
+}
+
+.header,
+.wrap,
+ol.topic-path,
+.colWrap,
+.dlList,
+.userSelect,
+ul.rowList {
+    /* \*/
+    display: block;
+    /*  */
+}
+
+.header:after,
+.wrap:after,
+ol.topic-path:after,
+.colWrap:after,
+.dlList:after,
+.userSelect:after,
+ul.rowList {
+    height: 0;
+    visibility: hidden;
+    display: block;
+    clear: both;
+    content: " ";
+    font-size: 0;
+    line-height: 0;
+    position: relative;
+    overflow: hidden;
+}
+
+/* grid */
+
+.colWrap {
+    width: 100%;
+}
+
+.colWrap .col4 {
+    width: 195px;
+    margin-left: 20px;
+    float: left;
+}
+
+.colWrap .col4:first-child {
+    margin: 0;
+}
+
+/* base
+--------------------------------------------------*/
+
+body {
+    color: #4a4a4a;
+    background-color:#fff;
+    font-size: 14px;
+    font-family:Arial, Helvetica, "ヒラギノ角ゴ ProN","Hiragino Kaku Gothic ProN","ヒラギノ角ゴ Pro","Hiragino Kaku Gothic Pro","メイリオ","Meiryo","ＭＳ Ｐゴシック","MS PGothic",sans-serif;text-align:center;
+}
+
+/* カラムレイアウト
+--------------------------------------------------*/
+
+.wrap {
+    width: 980px;
+    margin: 20px auto 50px;
+}
+
+.navi {
+    width: 110px;
+    float: left;
+}
+
+.main {
+    width: 840px;
+    text-align: left;
+    float: right;
+}
+
+.section {
+    margin-top: 30px;
+    border-top: 1px solid #d5dcdc;
+    padding-top: 30px;
+}
+
+h1 + .section {
+    margin-top: 0;
+    border-width: 0;
+    padding-top: 0;
+}
+
+/* header
+--------------------------------------------------*/
+
+.header {
+    position: relative;
+    width: 980px;
+    margin: 20px auto;
+    padding: 10px 20px;
+    height: 70px;
+    background-color: #01a5c8;
+    color: #fff;
+    border-radius: 8px; /* CSS3 */
+    -webkit-border-radius: 8px; /* Safari,Google Chrome用 */
+    -moz-border-radius: 8px; /* Firefox用 */
+}
+
+.hd-ttl {
+    color: #fff;
+    font-size: 24px;
+    font-weight: bold;
+    float: left;
+    position: absolute;
+    top: 50%;
+    margin-top: -15px;
+}
+
+.hd-acount {
+    font-size: 13px;
+    line-height: 50px;
+    float: right;
+}
+
+.hd-acount li {
+    display: inline-block;
+    padding-left: 20px;
+}
+
+.hd-acount li a:link,
+.hd-acount li a:visited {
+    color: #fff;
+}
+
+ul.hd-acount li.hd-profile:before {
+    font-family: foundation-icons;
+    content: '\f1fe';
+    font-size: 16px;
+    padding-right: 5px;
+}
+
+/* navi
+--------------------------------------------------*/
+
+.navi {
+    display: table;
+    font-size: 30px;
+}
+
+.navi li {
+    display: teble-cell;
+    vertical-align: middle;
+    margin: 0;
+    padding: 0;
+}
+
+.navi li a {
+    display: block;
+    padding: 20px 0px 30px;
+    background-color: #e9ebee;
+    border-top: 1px solid #fff;
+}
+
+.navi li a:hover,
+.navi li a.current {
+    background-color: #01a5c8;
+    color: #fff;
+}
+
+.navi span {
+    display: block;
+    font-size: 13px;
+    line-height: 0.5em;
+    margin: 0;
+    padding: 0;
+    color: #4a4a4a;
+}
+
+.navi li a:hover span,
+.navi li a.current span {
+    color: #fff;
+}
+
+.navi li:first-child a {
+    border-top: 0;
+    border-radius: 8px 8px 0 0; /* CSS3 */
+    -webkit-border-radius: 8px 8px 0 0; /* Safari,Google Chrome用 */
+    -moz-border-radius: 8px 8px 0 0; /* Firefox用 */
+}
+
+.navi li:last-child a {
+    border-radius: 0 0 8px 8px; /* CSS3 */
+    -webkit-border-radius: 0 0 8px 8px; /* Safari,Google Chrome用 */
+    -moz-border-radius: 0 0 8px 8px; /* Firefox用 */
+}
+
+/* main
+--------------------------------------------------*/
+
+ol.topic-path {
+    font-size: 12px;
+}
+
+ol.topic-path li {
+    float: left;
+}
+
+ol.topic-path>li+li:before {
+    content: '/';
+    padding: 0 8px;
+    color: #a9a9a9 !important;
+}
+
+.main h1 {
+    font-size: 28px;
+    color: #006a81;
+    margin: 20px 0 30px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid #d5dcdc;
+}
+
+.main h2 {
+    font-size: 16px;
+    color: #006a81;
+    margin-bottom: 10px;
+}
+
+.main h2.ttl {
+    font-size: 16px;
+    color: #fff;
+    background-color: #01a5c8;
+    margin: 30px 0 20px;
+    padding: 10px;
+    border-radius: 4px; /* CSS3 */
+    -webkit-border-radius: 4px; /* Safari,Google Chrome用 */
+    -moz-border-radius: 4px; /* Firefox用 */
+}
+
+.main h3 {
+    font-size: 16px;
+    color: #006a81;
+    margin-bottom: 10px;
+}
+
+/* RoomLogin
+================================================= */
+
+#RoomLogin {
+    background-color: #fff;
+}
+
+#RoomLogin h1 {
+    margin: 30px 0 20px;
+    color: #01a5c8;
+    font-size: 30px;
+    font-weight: bold;
+}
+
+#RoomLogin .loginPanel {
+    text-align: left;
+    background-color: #f6f7f8;
+    border: 1px solid #d5dcdc;
+    padding: 10px 30px 30px;
+    width: 400px;
+    margin: 0 auto;
+    border-radius: 8px; /* CSS3 */
+    -webkit-border-radius: 8px; /* Safari,Google Chrome用 */
+    -moz-border-radius: 8px; /* Firefox用 */
+}
+
+#RoomLogin p {
+    margin: 15px 0;
+}
+
+#RoomLogin input[type=text],
+#RoomLogin input[type=password] {
+    width: 100%;
+}
+
+#RoomLogin .sbmbtn {
+    margin-top: 10px;
+}
+
+/* RoomMenu
+================================================= */
+
+.info {
+    border: 1px solid #d5dcdc;
+    padding: 16px;
+    border-radius: 4px; /* CSS3 */
+    -webkit-border-radius: 4px; /* Safari,Google Chrome用 */
+    -moz-border-radius: 4px; /* Firefox用 */
+}
+.info-block {
+    margin-bottom: 1.0em;
+}
+.info-block p {
+    font-size: 1.1em;
+}
+.info-block ul {
+    padding-left: 2.5em;
+}
+
+/* RoomUserList LogStudyResultUser
+================================================= */
+
+.dlList li {
+    margin-left: 20px;
+    float: left;
+}
+
+.dlList li:first-child {
+    margin: 0;
+}
+
+.userSelect {
+    margin: 20px 0;
+}
+
+.userSelect li {
+    float: left;
+    margin: 3px 0;
+    padding: 0 12px;
+    border-left: 1px solid #d5dcdc;
+}
+
+.userSelect li:first-child {
+    border-width: 0;
+}
+
+.userSelect li.checkbox {
+    float: left;
+    padding-right: 0;
+    border-width: 0;
+}
+
+.userSelect a.current {
+    color: #4a4a4a;
+}
+
+.stateValid {
+    color: #fff;
+    font-size: 12px;
+    padding: 3px 6px;
+    background-color: #f7bb48;
+    display: inline-block;
+    line-height: 1.5em;
+    white-space: nowrap;
+}
+.stateInvalid {
+    color: #000;
+    font-size: 12px;
+    padding: 3px 6px;
+    background-color: #e7e7e7;
+    display: inline-block;
+    line-height: 1.5em;
+    white-space: nowrap;
+}
+
+/* RoomUserEdit RoomUserCreate
+================================================= */
+
+#RoomUserEdit .basic th,
+#RoomUserCreate .basic th {
+    width: 22%;
+}
+
+ul.clr li {
+    margin-left: 20px;
+    float: left;
+}
+
+ul.clr li:first-child {
+    margin: 0;
+}
+
+.btnGroup {
+    margin-top: 20px;
+    text-align: center;
+}
+
+.btnSet {
+    margin: 0 auto;
+    display: table;
+}
+
+.btnSet li {
+    display:table-cell;
+    vertical-align: middle;
+    padding: 0 20px;
+}
+
+/* RoomUserImport
+================================================= */
+#RoomUserImport textarea {
+    display: block;
+    width: 100%;
+    height: 100px;
+    resize: none;
+}
+
+/* ManualList
+================================================= */
+
+.indexPdf {
+    font-size: 16px;
+}
+
+.indexPdf i {
+    font-size: 20px;
+    padding-right: 5px;
+}
+
+
+/* QAList
+================================================= */
+.accordion {
+margin-bottom: 0; }
+.accordion:before, .accordion:after {
+content: " ";
+display: table; }
+.accordion:after {
+clear: both; }
+.accordion .accordion-navigation, .accordion dd {
+display: block;
+margin-bottom: 0 !important; }
+.accordion .accordion-navigation.active > a, .accordion dd.active > a {
+background: #e8e8e8; }
+.accordion .accordion-navigation > a, .accordion dd > a {
+background: #f6f7f8;
+color: #222222;
+display: block;
+font-size: 1rem;
+padding: 1rem;
+border-bottom: 1px solid #fff; }
+.accordion .accordion-navigation > a:hover, .accordion dd > a:hover {
+background: #e9ebee; }
+.accordion .accordion-navigation > .content, .accordion dd > .content {
+display: none;
+padding: 0.9375rem; }
+.accordion .accordion-navigation > .content.active, .accordion dd > .content.active {
+background: #fff;
+display: block; }
+
+/* Exception Error
+================================================= */
+
+.wrap > .section {
+    text-align: left;
+    margin-top: 30px;
+    border-width: 0;
+    padding: 0 20px;
+    font-size: 1rem;
+}
+
+
+/* カラムレイアウト
+--------------------------------------------------*/
+@media screen and (max-width: 767px) {
+    .wrap {
+        width: 100%;
+        margin: 0 auto 30px;
+    }
+
+    .navi {
+        width: 100%;
+        float: none;
+    }
+
+    .main {
+        margin-top: 20px;
+        padding: 0 15px;
+        width: 100%;
+        text-align: left;
+        float: none;
+    }
+
+    /* grid */
+
+    .colWrap .col4 {
+        width: 100%;
+        margin-left: 0;
+        margin-top: 20px;
+        float: none;
+    }
+
+    .colWrap .col4:first-child {
+        margin: 0;
+    }
+
+    /* basicTable */
+
+    .basic th,
+    .basic td {
+        padding: 5px 5px;
+    }
+
+    /* header
+    --------------------------------------------------*/
+
+    .header {
+        position: relative;
+        width: 100%;
+        height: auto;
+        margin: 0;
+        padding: 0;
+        background-color: #006a81;
+        color: #fff;
+        border-radius: 0px; /* CSS3 */
+        -webkit-border-radius:0px; /* Safari,Google Chrome用 */
+        -moz-border-radius: 0px; /* Firefox用 */
+    }
+
+    .hd-ttl {
+        position: relative;
+        padding: 10px;
+        top: auto;
+        margin: 0;
+        float: none;
+        background-color: #01a5c8;
+    }
+
+    .hd-acount {
+        font-size: 13px;
+        line-height: normal;
+        float: none;
+        margin: 0;
+        padding: 8px;
+    }
+
+    /* navi
+    --------------------------------------------------*/
+
+    ul.navi {
+        display: table;
+        table-layout: fixed;
+        width: 100%;
+        font-size: 26px;
+    }
+
+    ul.navi li{
+        display: table-cell;
+        height: auto;
+        vertical-align: middle;
+        text-align: center;
+    }
+
+    .navi li a {
+        display: block;
+        padding: 0 0 10px;
+        background-color: #e9ebee;
+        border-left: 1px solid #fff;
+    }
+
+    .navi li a:hover {
+        background-color: #01a5c8;
+        color: #fff;
+    }
+
+    .navi li a.current {
+        background-color: #01a5c8;
+        color: #fff;
+    }
+
+    .navi li:first-child a {
+        border-radius: 0;
+        border-left: 0;
+        border-top: 1px solid #fff;
+    }
+
+    .navi li:last-child a {
+        border-radius: 0;
+    }
+
+    .navi span {
+        display: block;
+        font-size: 11px;
+        line-height: 0.5em;
+        margin: 0;
+        padding: 0;
+    }
+
+    /* RoomLogin
+    ================================================= */
+
+    #RoomLogin h1 {
+        font-size: 26px;
+    }
+
+    #RoomLogin .loginPanel {
+        width: 90%;
+    }
+
+    /* RoomUserList
+    ================================================= */
+
+    .dlList li {
+        margin-left: 0;
+        float: none;
+    }
+
+    .dlList li:last-child {
+        margin-top: 10px;
+    }
+
+    /* RoomUserEdit RoomUserCreate
+    ================================================= */
+
+    #RoomUserEdit .basic th,
+    #RoomUserEdit .basic td,
+    #RoomUserCreate .basic th,
+    #RoomUserCreate .basic td {
+        padding: 8px;
+        width: 100%;
+        display: block;
+    }
+
+    #RoomUserEdit .basic tr,
+    #RoomUserCreate .basic tr {
+        background-color: #fff;
+    }
+
+    #RoomUserEdit .basic tr:nth-child(even),
+    #RoomUserCreate .basic tr:nth-child(even) {
+        background-color: #fff;
+    }
+
+    #RoomUserEdit .basic.row th,
+    #RoomUserCreate .basic.row th {
+        background-color: #f6f7f8;
+    }
+
+    #RoomUserEdit .basic tr:nth-child(1) th,
+    #RoomUserCreate .basic tr:nth-child(1) th {
+        border-top: none;
+    }
+
+    .btnGroup {
+        margin-top: 10px;
+    }
+
+    .btnSet {
+        display: block;
+    }
+
+    .btnSet li {
+        display: block;
+        vertical-align: middle;
+        padding: 0 0 10px;
+    }
+    
+    /* RoomUserProgressEdit
+    ================================================= */
+
+    #RoomUserProgressEdit .dlList li:last-child {
+        margin-top: 0px;
+    }
+
+    /* RoomUserImport
+    ================================================= */
+    #RoomUserImport textarea {
+        display: block;
+        width: 100%;
+        resize: none;
+    }
+
+}
+
+

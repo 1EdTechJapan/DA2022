@@ -1,0 +1,8 @@
+server:
+  port: 8080
+
+settings:
+  xapi:
+    profile:
+      template-file: .\xAPI\template\profile.jsonld
+      output-path: .\xAPI\output\

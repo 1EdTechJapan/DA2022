@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+>
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+</head>
+<body>
+
+<div th:fragment="scripts">
+
+  <!--begin::Javascript-->
+  <script>var hostUrl = "assets/";</script>
+  <script th:src="@{assets/plugins/global/plugins.bundle.js}"></script>
+  <script th:src="@{assets/js/scripts.bundle.js}"></script>
+  <script src="https://kit.fontawesome.com/3fad87bb38.js" crossorigin="anonymous"></script>
+  <!--end::Global Javascript Bundle-->
+  <!--begin::Page Vendors Javascript(used by this page)-->
+  <!--    <script th:src="@{assets/plugins/custom/fullcalendar/fullcalendar.bundle.js}"></script>-->
+  <!--    <script th:src="@{assets/plugins/custom/datatables/datatables.bundle.js}"></script>-->
+  <!--end::Page Vendors Javascript-->
+  <!--begin::Page Custom Javascript(used by this page)-->
+  <!--    <script th:src="@{assets/js/widgets.bundle.js}"></script>-->
+  <!--    <script th:src="@{assets/js/custom/widgets.js}"></script>-->
+  <!--    <script th:src="@{assets/js/custom/apps/chat/chat.js}"></script>-->
+  <!--    <script th:src="@{assets/js/custom/utilities/modals/upgrade-plan.js}"></script>-->
+  <!--    <script th:src="@{assets/js/custom/utilities/modals/users-search.js}"></script>-->
+  <!--    <script th:src="@{assets/plugins/custom/datatables/datatables.bundle.js}"></script>-->
+  <!--    <script th:src="@{assets/js/custom/apps/file-manager/list.js}"></script>-->
+  <!--    <script th:src="@{assets/js/widgets.bundle.js}"></script>-->
+  <!--    <script th:src="@{assets/js/custom/widgets.js}"></script>-->
+</div>
+</body>
+</html>

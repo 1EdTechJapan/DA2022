@@ -1,0 +1,32 @@
+{
+  "enrollments": [
+    {
+      "sourcedId": "401322ff-f51e-445d-948e-5d27166ae97c",
+      "status": "active",
+      "dateLastModified": "2023-01-30T05:21:09.691Z",
+      "metadata": {
+        "jp": {
+          "shussekiNo": "1",
+          "publickFlg": true
+        }
+      },
+      "user": {
+        "href": "https://example.com/data-type",
+        "sourcedId": "fde2a968-1ac9-4c72-96bc-28bb20e3afb8",
+        "type": "user"
+      },
+      "class": {
+        "href": "https://example.com/data-type",
+        "sourcedId": "c0935e31-e98a-46d8-bd8b-831a26fcaef5",
+        "type": "class"
+      },
+      "school": {
+        "href": "https://example.com/data-type",
+        "sourcedId": "500bc782-3ff9-4fd8-9dc7-ba6abfb38d80",
+        "type": "org"
+      },
+      "role": "student",
+      "primary": false
+    }
+  ]
+}

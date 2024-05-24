@@ -1,0 +1,94 @@
+plugins {
+	id 'org.springframework.boot' version '2.4.3'
+	id 'io.spring.dependency-management' version '1.0.11.RELEASE'
+	id 'java'
+	id 'org.openapi.generator' version '5.0.1'
+}
+
+group = 'jp.co.example.programming'
+version = '0.0.1-SNAPSHOT'
+sourceCompatibility = '11'
+
+configurations {
+	developmentOnly
+	runtimeClasspath {
+		extendsFrom developmentOnly
+	}
+	compileOnly {
+		extendsFrom annotationProcessor
+	}
+}
+
+repositories {
+	mavenCentral()
+}
+
+dependencies {
+	implementation 'io.jsonwebtoken:jjwt:0.9.1'
+	implementation ('org.springframework.boot:spring-boot-starter-web') {
+		exclude module: 'spring-boot-starter-tomcat'
+	}
+	implementation 'org.springframework.boot:spring-boot-starter-jetty'
+	implementation 'org.springframework.boot:spring-boot-starter-validation'
+	compileOnly 'org.projectlombok:lombok'
+	developmentOnly 'org.springframework.boot:spring-boot-devtools'
+	annotationProcessor 'org.projectlombok:lombok'
+	implementation 'org.apache.commons:commons-lang3:3.11'
+	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+	testImplementation 'org.springframework.security:spring-security-test'
+	implementation  'com.google.api-client:google-api-client:1.31.3'
+
+	// openapi/swagger関連
+	implementation 'org.openapitools:jackson-databind-nullable:0.2.1'
+	implementation 'io.springfox:springfox-swagger2:3.0.0'
+
+	// openapi/java client dependencies
+	implementation 'com.github.joschi.jackson:jackson-datatype-threetenbp:2.9.10'
+}
+
+// 変数定義
+ext {
+    openApiOutputDir = "$buildDir/generated/"
+    openApiSrcDir = '/src/main/java'
+	openApiTemplateDir = "$rootDir/../openapi/template/spring/"
+    openApiControllerPackage = 'jp.co.example.programming.openapi.controller.'
+    openApiDataPackage = 'jp.co.example.programming.openapi.data.'
+	openApiGlobalProperties = [
+		skipFormModel: 'false'
+	]
+	openApiConfigOptions = [
+		dateLibrary: 'legacy',
+		interfaceOnly: 'true',
+		useTags: 'true',
+		implicitHeaders: 'false',
+		returnSuccessCode: 'true'
+	]
+}
+
+// openapi-generator 生成クラス参照設定
+sourceSets.main.java.srcDirs += [
+	"$openApiOutputDir/oneRoster$openApiSrcDir",
+]
+
+// openapi-generator ビルド設定
+task buildOneRosterApi(type: org.openapitools.generator.gradle.plugin.tasks.GenerateTask) {
+	generatorName = 'java'
+	inputSpec = "$rootDir/../openapi/oneRoster/definition.yaml"
+	outputDir = "$openApiOutputDir/oneRoster"
+	apiPackage = "${openApiControllerPackage}oneRoster"
+	modelPackage = "${openApiDataPackage}oneRoster"
+	globalProperties = openApiGlobalProperties
+	configOptions = [
+		library: 'resttemplate',
+		ignoreAnyOfInEnum: 'true'
+	]
+	doFirst {
+		delete "$openApiOutputDir/oneRoster"
+	}
+}
+
+compileJava.dependsOn tasks.buildOneRosterApi
+
+bootRun {
+	sourceResources sourceSets.main
+}

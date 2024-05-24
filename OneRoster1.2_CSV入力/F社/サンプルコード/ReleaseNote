@@ -1,0 +1,48 @@
+■動作環境
+　OS：Amazon Linux
+　　　※shell(bash)が動作する環境であること
+　DB：MySQL
+
+
+■ファイル構成
+「ソースファイル構成.pdf」参照
+
+
+■実行手順
+１．実行環境の準備
+　1-1 DBの構築
+　　　OneRosterDBのDDLは、「DDL/OneRosterDB_DDL.sql」参照
+　　　AIAIモンキーDBのDDLは、「DDL/AIAIモンキーDB_DDL.sql」参照
+
+　1-2 ソースコードの配置
+　　　ソースコードをOneRoster実行サーバの以下のフォルダに配置する
+　　　/home/ec2-user/work/oneroster_digital
+
+　1-3 データベースサーバ情報の記載
+　　　「conf/oneroster_db.conf」にOneRosteのデータベースサーバの情報を記載する
+　　　「conf/aiai_monkey_db.conf」にAIAIモンキーのデータベースサーバの情報を記載する
+
+２．テストデータの準備
+　　インポート対象のZIPファイルをOneRoster実行サーバの
+　　/home/ec2-user/work/oneroster_digital/data/test/【ZIPファイルの配置先】
+　　フォルダにアップロードする
+
+３．コマンド実行
+　　OneRoster実行サーバで以下のコマンドを実行する
+　　/home/ec2-user/work/oneroster_digital/oneroster.sh test
+
+４．結果確認（正常系の場合）
+　　OneRosterのデータベースに接続し、
+　　該当テーブルで追加されたレコードを確認し、
+　　テスト内容に記載の結果になっているのかを確認する
+
+　　【該当テーブル】
+　　　orgs.csv　⇒　orgs_import
+　　　classes.csv　⇒　classes_import
+　　　users.csv　⇒　users_import
+　　　enrollments.csv　⇒　enrollments_import
+
+5．結果確認（異常系の場合）
+　　/home/ec2-user/work/oneroster_digital/data/test
+　　下のoneroster.logファイルを確認し、
+　　テスト内容に記載の結果に該当するログが出力されていることを確認する

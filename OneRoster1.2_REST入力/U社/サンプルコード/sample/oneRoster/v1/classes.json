@@ -1,0 +1,31 @@
+{
+  "classes": [
+    {
+      "sourcedId": "c0935e31-e98a-46d8-bd8b-831a26fcaef5",
+      "status": "active",
+      "dateLastModified": "2023-01-30T06:54:10.080Z",
+      "metadata": {
+        "jp": {
+          "specialNeeds": false
+        }
+      },
+      "title": "1年1組",
+      "classCode": "0101",
+      "classType": "homeroom",
+      "grades": [
+        "P1"
+      ],
+      "course": {
+        "href": "https://example.com/data-type",
+        "sourcedId": "1dd2f3c3-fc9c-4e7a-bc58-df2bef4b80f4",
+        "type": "course"
+      },
+      "school": {
+        "href": "https://example.com/data-type",
+        "sourcedId": "500bc782-3ff9-4fd8-9dc7-ba6abfb38d80",
+        "type": "org"
+      },
+      "terms": []
+    }
+  ]
+}

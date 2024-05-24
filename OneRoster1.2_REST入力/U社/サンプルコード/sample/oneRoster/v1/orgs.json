@@ -1,0 +1,17 @@
+{
+  "orgs": [
+    {
+      "sourcedId": "500bc782-3ff9-4fd8-9dc7-ba6abfb38d80",
+      "status": "active",
+      "dateLastModified": "2023-01-30T05:32:13.710Z",
+      "name": "digital学校",
+      "type": "school",
+      "identifier": "A123456789012",
+      "parent": {
+        "href": "https://example.com/data-type",
+        "sourcedId": "4310427b-9338-4542-97c3-cb5243f67038",
+        "type": "org"
+      }
+    }
+  ]
+}

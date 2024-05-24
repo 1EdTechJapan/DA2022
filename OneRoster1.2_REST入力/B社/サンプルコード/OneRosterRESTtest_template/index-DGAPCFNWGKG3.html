@@ -1,0 +1,317 @@
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Cache-Control" content="no-cache">
+    <meta http-equiv="Expires" content="Thu, 01 Dec 1994 16:00:00 GMT">
+    <title>OneRoster REST consumer ( test )</title>
+    <link rel="stylesheet" href="/notice/maintenance.css" type="text/css">
+    <style>
+        .caption {
+            display: inline-block;
+            min-width: 15em;
+        }
+        td, th {
+            border: 1px solid #555;
+        }
+    </style>
+</head>
+<body>
+    <h1>OneRoster REST consumer ( test )</h1>
+    <form name="test_form" method="POST" action="">
+    <input type="hidden" name="mode" value="">
+    <div class="content">
+        <div class="section">
+            <p><span class="caption">Authorization Endpoint</span><input type="text" name="authz_endpoint" value="<## Param name="authz_endpoint" ##>"></p>
+            <p><span class="caption">client id</span><input type="text" name="client_id" value="<## Param name="client_id" ##>"></p>
+            <p><span class="caption">client secret</span><input type="text" name="client_secret" value="<## Param name="client_secret" ##>"></p>
+            <p><span class="caption">scope</span><input type="text" name="scope" value="<## Param name="scope" ##>"></p>
+            <p><input type="button" value="トークン取得" onclick="getAccessToken();"></p>
+        </div>
+        <hr>
+        <div class="section">
+            <p><span class="caption">Access Token</span><input type="text" name="access_token" value="<## Param name="access_token" ##>"></p>
+            <p><span class="caption">Service Provider URL</span><input type="text" name="provider_url" value="<## Param name="provider_url" ##>"></p>
+        </div>
+        <hr>
+        <div class="section">
+            <h3>getAllOrgs</h3>
+            <p>組織を取得: <input type="button" value="取得" onclick="getAllOrgs();"></p>
+            <input type="hidden" name="array_org_list" value=""></div>
+            <div id="org_list_area"></div>
+        </div>
+        <hr>
+        <div class="section">
+            <h3>getAllTeachers</h3>
+            <p>全先生を取得: <input type="button" value="取得" onclick="getAllTeachers();"></p>
+            <input type="hidden" name="array_all_tea_list" value=""></div>
+            <div id="all_tea_area"></div>
+        </div>
+        <hr>
+        <div class="section">
+            <h3>getAllStudents</h3>
+            <p>全生徒を取得: <input type="button" value="取得" onclick="getAllStudents();"></p>
+            <input type="hidden" name="array_all_stu_list" value=""></div>
+            <div id="all_stu_area"></div>
+        </div>
+        <hr>
+        <div class="section">
+            <h3>getTeacherForSchool</h3>
+            <p>Org sourcedId ( School sourcedId ) <input type="text" name="tea_sch_souced_id" value="<## Param name="tea_sch_souced_id" ##>"></p>
+            <p>指定した組織の先生を取得: <input type="button" value="取得" onclick="getTeacherForSchool();"></p>
+            <input type="hidden" name="array_tea_for_sch" value=""></div>
+            <div id="tea_for_sch_area"></div>
+        </div>
+        <hr>
+        <div class="section">
+            <h3>getStudentsForSchool</h3>
+            <p>Org sourcedId ( School sourcedId ) <input type="text" name="stu_sch_souced_id" value="<## Param name="stu_sch_souced_id" ##>"></p>
+            <p>指定した組織の生徒を取得: <input type="button" value="取得" onclick="getStudentsForSchool();"></p>
+            <input type="hidden" name="array_stu_for_sch" value=""></div>
+            <div id="stu_for_sch_area"></div>
+        </div>
+        <hr>
+        <hr>
+        <div class="section">
+
+        </div>
+    </div>
+    </form>
+    <script>
+        /**
+         * access token request に必要な input が入力されているかをチェックする。
+         * 
+         * @return {bool} 問題なければ true. 問題あれば false を返します。
+         */
+        let validationTokenRequest = () => {
+            if ( document.test_form.authz_endpoint.value      == "" ) return false;
+            if ( document.test_form.client_id.value     == "" ) return false;
+            if ( document.test_form.client_secret.value == "" ) return false;
+            return true;
+        }
+
+        /**
+         * OneRosterREST Service Provider への リクエストに必要な項目の input が 入力されているかをチェックする。
+         * 
+         * @return {boolean} 問題なければ true. 問題あれば false を返します。
+         */
+        let validationGetAll = ( ) => {
+            if ( document.test_form.access_token.value        == "" ) return false;
+            if ( document.test_form.provider_url.value        == "" ) return false;
+            return true;
+        }
+
+        /**
+         * OneRosterREST Service Provider へ 組織リストをリクエストする為のローカルURLにPOSTします。
+         * POST先の CGI 処理内で サーバ間通信で OneRoster REST Service Provider へリクエストを行います。
+         */
+        let getAllOrgs = () => {
+            if ( !validationGetAll( ) ) {
+                alert("必要な情報が入力されていません。");
+                return;
+            }
+            document.test_form.mode.value = "GETALLORG";
+            document.test_form.action = "";
+            document.test_form.submit();
+            return;
+        };
+
+        /**
+         * OneRosterREST Service Provider へ 先生リストをリクエストする為のローカルURLにPOSTします。
+         * POST先の CGI 処理内で サーバ間通信で OneRoster REST Service Provider へリクエストを行います。
+         */
+        let getAllTeachers = () => {
+            if ( !validationGetAll( ) ) {
+                alert("必要な情報が入力されていません。");
+                return;
+            }
+            document.test_form.mode.value = "GETALLTEA";
+            document.test_form.action = "";
+            document.test_form.submit();
+            return;
+        };
+
+        /**
+         * OneRosterREST Service Provider へ 生徒リストをリクエストする為のローカルURLにPOSTします。
+         * POST先の CGI 処理内で サーバ間通信で OneRoster REST Service Provider へリクエストを行います。
+         */
+        let getAllStudents = () => {
+            if ( !validationGetAll( ) ) {
+                alert("必要な情報が入力されていません。");
+                return;
+            }
+            document.test_form.mode.value = "GETALLSTU";
+            document.test_form.action = "";
+            document.test_form.submit();
+            return;
+        };
+
+        /**
+         * OneRosterREST Service Provider へ 組織の sourcedId に紐づく先生リストをリクエストする為のローカルURLにPOSTします。
+         * POST先の CGI 処理内で サーバ間通信で OneRoster REST Service Provider へリクエストを行います。
+         */
+        let getTeacherForSchool = () => {
+            if ( !validationGetAll( ) ) {
+                alert("必要な情報が入力されていません。");
+                return;
+            }
+            if ( document.test_form.tea_sch_souced_id.value == "" ) {
+                alert("組織のsoucedId を 入力してください。");
+            }
+            document.test_form.mode.value = "GETTEASCH";
+            document.test_form.action = "";
+            document.test_form.submit();
+            return;
+        };
+
+        /**
+         * OneRosterREST Service Provider へ 組織の sourcedId に紐づく生徒リストをリクエストする為のローカルURLにPOSTします。
+         * POST先の CGI 処理内で サーバ間通信で OneRoster REST Service Provider へリクエストを行います。
+         */
+        let getStudentsForSchool = () => {
+            if ( !validationGetAll( ) ) {
+                alert("必要な情報が入力されていません。");
+                return;
+            }
+            if ( document.test_form.stu_sch_souced_id.value == "" ) {
+                alert("組織のsoucedId を 入力してください。");
+            }
+            document.test_form.mode.value = "GETSTUSCH";
+            document.test_form.action = "";
+            document.test_form.submit();
+            return;
+        };
+
+        /**
+         * 認可サーバへ access token リクエストする為のローカルURLにPOSTします。
+         * POST先の CGI 処理内で サーバ間通信で 認可サーバ へリクエストを行います。
+         */
+        let getAccessToken = () => {
+            if ( !validationTokenRequest( ) ) {
+                alert("必要な情報が入力されていません。");
+                return;
+            }
+            document.test_form.mode.value = "GETTOKEN";
+            document.test_form.action = "";
+            document.test_form.submit();
+            return;
+        };
+
+        /**
+         * CGI 処理内で エラーや、データの取得が成功した時のメッセージを表示します。
+         */
+        let OnloadAlert = () => {
+            let errmsg = '<## Param name="errmsg" ##>';
+            if ( errmsg.length > 0 ) {
+                alert(errmsg);
+            }
+            let okmsg = '<## Param name="okmsg" ##>';
+            if ( okmsg.length > 0 ) {
+                alert(okmsg);
+            }
+        }
+
+        /**
+         * データ取得後にカスタム要素に JSON が格納されてくる。ので input で持っておく為の処理
+         */
+        let OnLoadSetting = () => {
+            document.test_form.array_org_list.value     = '<## Param name="array_org_list" ##>';
+            document.test_form.array_all_tea_list.value = '<## Param name="array_all_tea_list" ##>';
+            document.test_form.array_all_stu_list.value = '<## Param name="array_all_stu_list" ##>';
+            document.test_form.array_tea_for_sch.value  = '<## Param name="array_tea_for_sch" ##>';
+            document.test_form.array_stu_for_sch.value  = '<## Param name="array_stu_for_sch" ##>';
+        }
+
+        /**
+         * getAllOrgs() 実行後に データが取得されていれば CGI側で データ量を表示する為の項目のみに絞った JSON を カスタム要素に 設定されてくる。
+         * これを DOM に表示する処理。
+         */
+        let SetOrgList = () => {
+            let orglist = '<## Param name="array_org_list" ##>';
+            let orgJson = JSON.parse(orglist || '{}');
+            let elm     = document.getElementById('org_list_area');
+            let elmTbl  = document.createElement('table');
+            if ( orgJson["orgs"] ) {
+                let theader = document.createElement('tr');
+                let rowNumHead = document.createElement('th');
+                let nameHead = document.createElement('th');
+                let sourcedIdHead = document.createElement('th');
+                rowNumHead.innerHTML = 'no.';
+                nameHead.innerHTML = 'name';
+                sourcedIdHead.innerHTML = 'sourcedId';
+                theader.append(rowNumHead, nameHead, sourcedIdHead);
+                elmTbl.appendChild(theader);
+                elm.appendChild(elmTbl);
+                if ( Array.isArray(orgJson.orgs)) {
+                    for ( let i = 0; i < orgJson.orgs.length; i++ ) {
+                        let low           = document.createElement('tr');
+                        let rowNum      = document.createElement('td');
+                        let nameWrap      = document.createElement('td');
+                        let sourcedIdWrap = document.createElement('td');
+                        rowNum.innerHTML = ((i + 1 ) + "");
+                        nameWrap.innerHTML = orgJson.orgs[i].name || '';
+                        sourcedIdWrap.innerHTML = orgJson.orgs[i].sourcedId || '';
+                        low.append(rowNum, nameWrap, sourcedIdWrap);
+                        elmTbl.appendChild(low);
+                    }
+                }
+            }
+            
+        }
+
+        /**
+         * getALlTeachers(), getAllStudents(), getTeachersForSchool(), getStudentsForSchool()
+         * 上記を実行後に データが取得されていれば CGI側で データ量を表示する為の項目のみに絞った JSON を カスタム要素に 設定されてくる。
+         * これを DOM に表示する処理。
+         */
+        let SetUserList = (jsonStr ,idStr) => {
+            let userJson = JSON.parse(jsonStr || '{}');
+            let elm     = document.getElementById(idStr);
+            let elmTbl  = document.createElement('table');
+            if ( userJson["users"] ) {
+                let theader = document.createElement('tr');
+                let rowNumHead = document.createElement('th');
+                let nameHead = document.createElement('th');
+                let sourcedIdHead = document.createElement('th');
+                let userIdsHead = document.createElement('th');
+                let identifierHead = document.createElement('th');
+                let rowNum = document.createElement('th');
+                rowNumHead.innerHTML = 'no.';
+                sourcedIdHead.innerHTML = 'sourcedId';
+                nameHead.innerHTML = 'username';
+                userIdsHead.innerHTML = 'userIds';
+                identifierHead.innerHTML = 'identifier';
+                theader.append(rowNumHead, nameHead, sourcedIdHead, userIdsHead, identifierHead);
+                elmTbl.appendChild(theader);
+                elm.appendChild(elmTbl);
+                if ( Array.isArray(userJson.users) ) {
+                    for ( let i = 0; i < userJson.users.length; i++ ) {
+                        let low           = document.createElement('tr');
+                        let rowNum      = document.createElement('td');
+                        let nameWrap      = document.createElement('td');
+                        let sourcedIdWrap = document.createElement('td');
+                        let userIdsWrap = document.createElement('td');
+                        let identifierWrap = document.createElement('td');
+                        rowNum.innerHTML = ((i + 1 ) + "");
+                        nameWrap.innerHTML = userJson.users[i].username || '';
+                        sourcedIdWrap.innerHTML = userJson.users[i].sourcedId || '';
+                        userIdsWrap.innerHTML = userJson.users[i].userIds || '';
+                        identifierWrap.innerHTML = userJson.users[i].identifier || '';
+                        low.append(rowNum, nameWrap, sourcedIdWrap, userIdsWrap, identifierWrap);
+                        elmTbl.appendChild(low);
+                    }
+                }
+            }
+        }
+
+        window.addEventListener('load', OnloadAlert, false);
+        window.addEventListener('load', OnLoadSetting, false);
+        window.addEventListener('load', SetOrgList, false);
+        window.addEventListener('load', SetUserList.bind(null, '<## Param name="array_all_tea_list" ##>', 'all_tea_area'), false);
+        window.addEventListener('load', SetUserList.bind(null, '<## Param name="array_all_stu_list" ##>', 'all_stu_area'), false);
+        window.addEventListener('load', SetUserList.bind(null, '<## Param name="array_tea_for_sch" ##>', 'tea_for_sch_area'), false);
+        window.addEventListener('load', SetUserList.bind(null, '<## Param name="array_stu_for_sch" ##>', 'stu_for_sch_area'), false);
+        
+    </script>
+</body>
+</html>

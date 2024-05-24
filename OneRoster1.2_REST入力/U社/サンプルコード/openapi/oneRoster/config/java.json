@@ -1,0 +1,10 @@
+{
+  "modelPackage": "jp.co.example.osarai2.openapi.data.oneRoster",
+  "apiPackage": "jp.co.example.osarai2.openapi.controller.oneRoster",
+  "dateLibrary": "legacy",
+  "interfaceOnly": true,
+  "useTags": true,
+  "implicitHeaders": false,
+  "returnSuccessCode": true,
+  "library": "resttemplate"
+}

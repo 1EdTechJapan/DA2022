@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8" />
+  <script th:inline="javascript">
+    var orgId        = /*[[ ${orgId} ]]*/        '';
+    var roomId       = /*[[ ${roomId} ]]*/       '';
+    var resourceName = /*[[ ${resourceName} ]]*/ '';
+    var usertoken    = /*[[ ${usertoken} ]]*/   '';
+    localStorage.setItem('usertoken', `"${usertoken}"`);
+    location.href = `/contents/user/login/${orgId}/${roomId}`;
+  </script>
+</head>
+</html>

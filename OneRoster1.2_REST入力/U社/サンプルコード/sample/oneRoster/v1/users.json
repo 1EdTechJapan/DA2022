@@ -1,0 +1,30 @@
+{
+  "users": [
+    {
+      "sourcedId": "fde2a968-1ac9-4c72-96bc-28bb20e3afb8",
+      "status": "active",
+      "dateLastModified": "2023-01-23T01:48:55.101Z",
+      "metadata": {
+        "jp": {
+          "kanaGivenName": "タロウ",
+          "kanaFamilyName": "テスト",
+          "kanaMiddleName": ""
+        }
+      },
+      "userMasterIdentifier": "3c6e8551-cb1d-4d2f-99c3-e74d58c10fc8",
+      "username": "てすとたろう",
+      "enabledUser": true,
+      "givenName": "たろう",
+      "familyName": "てすと",
+      "roles": [],
+      "primaryOrg": {
+        "href": "https://example.com/data-type",
+        "sourcedId": "500bc782-3ff9-4fd8-9dc7-ba6abfb38d80",
+        "type": "org"
+      },
+      "grades": [
+        "P1"
+      ]
+    }
+  ]
+}

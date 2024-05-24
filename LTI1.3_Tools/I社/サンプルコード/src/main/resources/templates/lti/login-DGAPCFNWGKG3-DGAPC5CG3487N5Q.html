@@ -1,0 +1,11 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8" />
+  <script th:inline="javascript">
+    var usertoken = /*[[ ${pusertoken} ]]*/ '';
+    localStorage.setItem('pusertoken', `"${usertoken}"`);
+    location.href = `/login`;
+  </script>
+</head>
+</html>

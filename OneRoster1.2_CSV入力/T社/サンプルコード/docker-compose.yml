@@ -1,0 +1,24 @@
+version: "3.9"
+
+services:
+  app:
+    build: .
+    ports:
+      - "80:8080"
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://db:5432/oneroster_csv?createDatabaseIfNotExist=true
+      - SPRING_DATASOURCE_USERNAME=postgres
+      - SPRING_DATASOURCE_PASSWORD=Aa@123456
+    depends_on:
+      - db
+
+  db:
+    image: postgres
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=Aa@123456
+      - POSTGRES_DB=oneroster_csv
+    ports:
+      - "5432:5432"
+    volumes:
+      - ./pgdata:/var/lib/postgresql/data

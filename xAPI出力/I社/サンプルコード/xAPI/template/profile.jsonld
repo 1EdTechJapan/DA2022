@@ -1,0 +1,43 @@
+[
+  {
+    "id": "<%= UUID %>",
+    "actor": {
+      "objectType": "Agent",
+      "account": {
+        "homePage": "https://<%= HOST_NAME %>/contents/user/login/digital/room/",
+        "name": "<%= USER_UUID %>"
+      }
+    },
+    "object": {
+      "objectType": "Activity",
+      "id": "https://<%= HOST_NAME %>/contents/user/study/<%= STUDY_PATH %>",
+      "definition": {
+        "type": "http://adlnet.gov/expapi/activities/question",
+        "name": {
+          "en": "<%= STAGE_NAME %>"
+        }
+      }
+    },
+    "verb": {
+      "id": "http://adlnet.gov/expapi/verbs/answered",
+      "display": {
+        "en": "answered"
+      }
+    },
+    "result": {
+      "success": true
+    },
+    "context": {
+      "contextActivities": {
+        "category": [
+          {
+            "id": "http://id.tincanapi.com/activity/lrp/cquality_pgsensei/1.0.0",
+            "definition": {
+              "type": "http://id.tincanapi.com/activitytype/source"
+            }
+          }
+        ]
+      }
+    }
+  }
+]

@@ -1,0 +1,24 @@
+{
+    "https://lti-ri.imsglobal.org": {
+        "client_id": "client_001",
+        "auth_login_url": "https://lti-ri.imsglobal.org/platforms/XXXX/authorizations/new",
+        "auth_token_url": "https://lti-ri.imsglobal.org/platforms/XXXX/access_tokens",
+        "key_set_url": "https://lti-ri.imsglobal.org/platforms/XXXX/platform_keys/3458.json",
+        "private_key_file": "private.key",
+        "redirect_url": "https://aaa.bbb.ccc.co.jp/lti_core_sso.php",
+        "deployment": [
+            "deployment001"
+        ]
+    },
+    "https://ltiadvantagevalidator.imsglobal.org": {
+        "client_id": "imstester_0001",
+        "auth_login_url": "https://ltiadvantagevalidator.imsglobal.org/ltitool/oidcauthurl.html",
+        "auth_token_url": "https://ltiadvantagevalidator.imsglobal.org/ltitool/authcodejwt.html",
+        "key_set_url": "https://oauth2server.imsglobal.org/jwks",
+        "private_key_file": "private2.key",
+        "redirect_url": "https://aaa.bbb.ccc.co.jp/lti_core_sso.php",
+        "deployment": [
+            "testdeploy"
+        ]
+    }
+}

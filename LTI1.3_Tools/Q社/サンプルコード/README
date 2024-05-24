@@ -1,0 +1,43 @@
+LTI連携サンプル（ResourceLink）
+
+■ 環境
+Node.js: v18.12.1
+MongoDB: v5.0.9
+
+■ 使用ライブラリ（LTI連携のために必須のもの）
+・ltijs
+・jsonwebtoken
+・jwks-rsa
+・crypto
+
+■ 各ディレクトリとファイルについて
+LTI-SAMPLE
+|- config
+|  dbCred.js : DBへの接続情報
+|
+|- controllers
+|  LogController.js : ログ保存処理を記載
+|  LtiController.js : LTI連携のメインの処理を記載
+|
+|- lib
+|  LogLib.js : DBへのアクセス、ログを保存
+|  LtiLib.js : DBへのアクセス、プラットフォームの登録、取得、stateやnonce、idTokenの保存や取得
+|
+|- public : 静的リソース、CSSなど
+|  |- css
+|  |- fonts
+|  |- js
+|  favicon.ico
+|
+|- routes
+|  |- lti
+|     index.js : LTI連携関連のルーティング処理
+|  index.js
+|
+|- views : UI部分
+|  index.ejs
+|  register.ejs : プラットフォーム登録ページ
+|
+| app.js : アプリのメインファイル
+| lti-keys.json : データエンコード時に使うsecret
+| package.json : 設定ファイル

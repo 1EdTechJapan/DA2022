@@ -1,0 +1,64 @@
+plugins {
+	id 'org.springframework.boot' version '2.2.6.RELEASE'
+	id 'io.spring.dependency-management' version '1.0.9.RELEASE'
+	id 'java'
+	id 'org.hidetake.swagger.generator' version '2.18.2'
+}
+
+group = 'jp.co.example.osarai2'
+version = '0.0.1-SNAPSHOT'
+sourceCompatibility = '11'
+
+configurations {
+	developmentOnly
+	runtimeClasspath {
+		extendsFrom developmentOnly
+	}
+	compileOnly {
+		extendsFrom annotationProcessor
+	}
+}
+
+repositories {
+	mavenCentral()
+}
+
+dependencies {
+	implementation 'io.jsonwebtoken:jjwt:0.9.1'
+	implementation ('org.springframework.boot:spring-boot-starter-web') {
+		exclude module: 'spring-boot-starter-tomcat'
+	}
+	implementation 'org.springframework.boot:spring-boot-starter-jetty'
+	compileOnly 'org.projectlombok:lombok'
+	developmentOnly 'org.springframework.boot:spring-boot-devtools'
+	annotationProcessor 'org.projectlombok:lombok'
+	implementation 'org.apache.commons:commons-lang3:3.10'
+	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+	testImplementation 'org.springframework.security:spring-security-test'
+	implementation  'com.google.api-client:google-api-client:1.31.3'
+
+	// openapi/swagger関連
+	swaggerCodegen 'org.openapitools:openapi-generator-cli:4.3.0'
+	implementation 'org.openapitools:jackson-databind-nullable:0.2.1'
+	implementation 'io.springfox:springfox-swagger2:2.9.2'
+
+	// openapi/java client dependencies
+	implementation 'com.github.joschi.jackson:jackson-datatype-threetenbp:2.9.10'
+}
+
+swaggerSources {
+	oneRoster {
+		inputFile = file('../openapi/oneRoster/definition.yaml')
+		code {
+			language = 'java'
+			configFile = file('../openapi/oneRoster/config/java.json')
+		}
+	}
+}
+
+compileJava.dependsOn swaggerSources.oneRoster.code
+sourceSets.main.java.srcDirs "${swaggerSources.oneRoster.code.outputDir}/src/main/java"
+
+bootRun {
+	sourceResources sourceSets.main
+}

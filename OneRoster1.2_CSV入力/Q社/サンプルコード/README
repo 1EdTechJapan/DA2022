@@ -1,0 +1,60 @@
+OneRoster連携サンプル
+
+■ 環境
+Node.js: v18.12.1
+MongoDB: v5.0.9
+
+■ 使用ライブラリ（OneRoster連携のために必須のもの）
+・adm-zip
+・autodetect-decoder-stream
+・body-parser
+・csv-reader
+・formidable
+・iconv-lite
+・jscharde
+・path
+・promise
+・stream
+
+■ 各ディレクトリとファイルについて
+ONEROSTER-SAMPLE
+|- config
+|  dbCred.js : DBへの接続情報
+|
+|- controllers
+|  LogController.js : ログ保存処理を記載
+|  OneRosterHeader.js : OneRoster csv のヘッダー名を記載、UserController.js でヘッダーのチェックをする際に使用
+|  UsersController.js : OneRoster連携のメインの処理を記載
+|
+|- lib
+|  LogLib.js : DBへのアクセス、ログを保存
+|  UsersLib.js : DBへのアクセス、ユーザーの一覧取得、登録、削除、更新
+|
+|- public : 静的リソース、CSSなど
+|  |- css
+|  |- fonts
+|  |- js
+|  favicon.ico
+|
+|- routes
+|  |- users
+|     index.js : OneRoster連携関連のルーティング処理
+|  index.js
+|
+|- views : UI部分
+|  index.ejs
+|
+| app.js : アプリのメインファイル
+| package.json : 設定ファイル
+
+
+■ サンプル実行
+・Node.jsをインストールする
+・MongoDB Community Editionをインストールし、MongoDBを起動する
+　(またはMongoDB Atlasを利用)
+・.envファイルを作成し、データベースへの接続情報を記載する
+　例：　DB_URI=mongodb://127.0.0.1:27017/test
+・ターミナル(npmコマンドが利用できるもの)で下記を実行
+  npm install
+  npm start
+・正常に開始できれば、http://localhost:3001 にアクセスすることでファイルアップロードを試せる

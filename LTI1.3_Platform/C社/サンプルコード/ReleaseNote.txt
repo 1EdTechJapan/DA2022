@@ -1,0 +1,24 @@
+■環境
+　言語：PHP
+　フレームワーク：CakePHP
+
+
+■LTIライブラリ
+　1EdTech/lti-1-3-php-library 
+　https://github.com/1EdTech/lti-1-3-php-library
+
+
+■ファイル構成
+    Controller/LtiToolsController.php
+    Controller/Lti/AuthController.php
+    Controller/Lti/CertsController.php
+    Common/LtiResponse.php
+    config/config.php
+
+
+■実行手順
+    1. config/config.phpに学習ツールの接続先情報を設定する
+    2. 以下は製品での実行手順になります
+    3. 教師・生徒が使用するログイン画面上で「テスト」メニューを表示
+    4. 登録されているテストの一覧から任意のものを選択して「実施」をクリック
+

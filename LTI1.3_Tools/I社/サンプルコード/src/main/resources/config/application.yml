@@ -1,0 +1,14 @@
+server:
+  port: 8080
+  servlet.session.tracking-modes: cookie
+
+settings:
+  lti:
+    id:
+      platform: PlatformId
+      deployment: DeploymentId
+      client: ClientId
+    url:
+      launch: https://example.com/launch
+      oidc-auth: https://example.com/auth
+      jwks: https://example.com/jwks

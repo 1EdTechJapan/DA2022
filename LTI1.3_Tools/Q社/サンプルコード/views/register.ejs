@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= title %></title>
+</head>
+<body>
+    <div class="container">
+        <div class="row mt-3 mb-3">
+            <h3>プラットフォーム登録</h3>
+        </div> 
+        <div class="row">
+
+            <div id="target-register-lti">
+                <div class="mb-3">
+                    <label class="form-label" for="textPlatUrl">Platform URL</label>
+                    <input class="form-control" type="text" id="textPlatUrl" required name="textPlatUrl" />
+                </div>
+                <div class="mb-3">
+                    <label class="form-label" for="textPlatName">Platform Name</label>
+                    <input class="form-control" type="text" id="textPlatName" required name="textPlatName" />
+                </div>
+                <div class="mb-3">
+                    <label class="form-label" for="textClientId">Client ID</label>
+                    <input class="form-control" type="text" id="textClientId" required name="textClientId" />
+                </div>
+                <div class="mb-3">
+                    <label class="form-label" for="selectKeyType">Public Key Type</label>
+                    <select class="form-select" id="selectKeyType" aria-label="Select Public Key Type" onchange="changeKeyType(event)">
+                        <option value="0" selected>Keyset URL</option>
+                        <option value="1">RSA key</option>
+                    </select>
+                </div>
+                <div class="mb-3" id="div-key-url">
+                    <label class="form-label" for="textKeyUrl">Keyset URL</label>
+                    <input class="form-control" type="text" id="textKeyUrl" required name="textKeyUrl" />
+                </div>
+                <div class="mb-3" id="div-key-rsa" style="display: none;">
+                    <label class="form-label" for="textKeyRsa">RSA key</label>
+                    <textarea class="form-control" type="text" id="textKeyRsa" required name="textKeyRsa" rows="3"></textarea>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label" for="textAuthUrl">Authentication Endpoint</label>
+                    <input class="form-control" type="text" id="textAuthUrl" required name="textAuthUrl" />
+                </div>
+                <div class="mb-3">
+                    <label class="form-label" for="textTokenUrl">Access Token Endpoint</label>
+                    <input class="form-control" type="text" id="textTokenUrl" required name="textTokenUrl" />
+                </div>
+                <div class="mb-3">
+                    <label class="form-label" for="textDeploymentId">Deployment ID</label>
+                    <input class="form-control" type="text" id="textDeploymentId" required name="textDeploymentId" />
+                </div>
+
+                <menu style="text-align: right;">
+                    <button type="button" class="btn btn-primary" id="btnRegister" onclick="registerPlatform()">登録</button>
+                </menu>
+            </div>
+
+        </div>
+    </div>
+    
+    <script>
+        const changeKeyType = (event) => {
+			const target = event.target;
+			if($(target).val() === "0"){
+				$('#div-key-url').css('display', 'block');
+				$('#div-key-rsa').css('display', 'none');
+			}
+			else{
+				$('#div-key-url').css('display', 'none');
+				$('#div-key-rsa').css('display', 'block');		
+			}
+		}
+        
+        const registerPlatform = async () => {
+            const pUrlDiv = $('#textPlatUrl');
+			const pNameDiv = $('#textPlatName');
+			const cidDiv = $('#textClientId');
+			const JwkTypeDiv = $('#selectKeyType');
+			const JwkUrlDiv = $('#textKeyUrl');
+			const JwkStrDiv = $('#textKeyRsa');
+			const tokenDiv = $('#textAuthUrl');
+			const authDiv = $('#textTokenUrl');    
+            const deployIdDiv = $('#textDeploymentId');
+
+            let pUrl = pUrlDiv.val().trim();
+			let pName = pNameDiv.val().trim();
+			let cid = cidDiv.val().trim();
+			let jwkType = JwkTypeDiv.val();
+			let jwkUrl = JwkUrlDiv.val().trim();
+			let JwkStr = JwkStrDiv.val();
+			let token = tokenDiv.val().trim();
+			let auth = authDiv.val().trim();
+            let did = deployIdDiv.val().trim();
+
+            if(!pUrl){
+                alert('platform urlが未入力です。')
+                return false;
+            }
+            if(!pName){
+                alert('platform nameが未入力です。')
+                return false;
+            }
+            if(!cid){
+                alert('client idが未入力です。')
+                return false;
+            }
+
+            let keyType = "JWK_SET";
+            let keyStr = jwkUrl;
+            if(jwkType === "0"){
+                if(!jwkUrl){
+					alert('keyset urlが未入力です。')
+					return false;
+				}       
+            }
+            else{
+                if(!JwkStr){
+					alert('rsa keyが未入力です。')
+					return false;
+				}
+
+                keyStr = JwkStr;
+                keyType = "RSA_KEY";
+            }
+
+            if(!token){
+                alert('access token endpointが未入力です。')
+                return false;         
+            }
+            if(!auth){
+                alert('authentication endpointが未入力です。')
+                return false;         
+            }
+            if(!did){
+				alert('deployment idが未入力です。')
+                return false;  
+			}
+
+            $('#btnRegister').attr('disabled', 'disabled');
+
+            pUrlDiv.attr('readonly', 'readonly');
+			pNameDiv.attr('readonly', 'readonly');
+			cidDiv.attr('readonly', 'readonly');
+			JwkTypeDiv.attr('readonly', 'readonly')
+			JwkUrlDiv.attr('readonly', 'readonly');
+			JwkStrDiv.attr('readonly', 'readonly');
+			tokenDiv.attr('readonly', 'readonly');
+			authDiv.attr('readonly', 'readonly');
+            deployIdDiv.attr('readonly', 'readonly');
+
+            const data = {
+                platform_url: pUrl,
+                platform_name: pName,
+                client_id: cid,
+                auth_url: auth,
+                token_url: token,
+                method: keyType,
+                key: keyStr,
+                deployment_id: did
+            }
+
+            let res = await fetch('/lti/register_platform', {
+                                method: 'POST',
+								headers: {
+									'Content-Type': 'application/json'
+								},
+								body: JSON.stringify(data)
+                            })
+
+            if(res.ok){
+                let res_json = await res.json();
+                console.log(res_json);
+
+				$('#btnRegister').removeAttr('disabled');
+            }
+            else{
+                let res_json = await res.json();
+				console.log(res_json);
+
+                $('#btnRegister').removeAttr('disabled');
+
+                pUrlDiv.removeAttr('readonly');
+                pNameDiv.removeAttr('readonly');
+                cidDiv.removeAttr('readonly');
+                JwkTypeDiv.removeAttr('readonly')
+                JwkUrlDiv.removeAttr('readonly');
+                JwkStrDiv.removeAttr('readonly');
+                tokenDiv.removeAttr('readonly');
+                authDiv.removeAttr('readonly');
+                deployIdDiv.removeAttr('readonly');
+            }
+        }
+    </script>
+</body>
+</html>

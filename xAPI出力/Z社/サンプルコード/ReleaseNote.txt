@@ -1,0 +1,17 @@
+
+◆動作環境
+   OS            : Windows Server 2019 Standard
+   ミドルウェア  : Apache Tomcat V7.0
+                 : Apache V2.4
+                 : PostgreSQL 12
+
+
+◆使い方
+  Java Servletとして展開する。
+  SendXApiServletを呼び出す。
+
+
+◆外部参照ライブラリ
+   jakson.databind 2.14.0        https://jar-download.com/artifacts/com.fasterxml.jackson.core
+   jakson.core 2.14.0            https://jar-download.com/artifacts/com.fasterxml.jackson.core
+   jacson.annotations 2.14.0     https://jar-download.com/artifacts/com.fasterxml.jackson.core

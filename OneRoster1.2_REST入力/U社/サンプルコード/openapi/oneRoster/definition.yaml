@@ -1,0 +1,1761 @@
+openapi: 3.0.0
+
+
+servers:
+- url: http://localhost/osarai2/sample/oneRoster/v1/
+  description: development server
+
+
+info:
+  version: "0.1.0"
+  title: おさらい先生 OneRoster API
+
+
+tags:
+  - name: OrgsManagement
+    description: |
+      This enables the management of orgs i.e. an organization involved in the learning in some form or other.
+  - name: ClassesManagement
+    description: |
+      This enables the management of Classes i.e. scheduled learning of courses.
+  - name: EnrollmentsManagement
+    description: |
+      This enables the management of the enrollments of users (teachers, students, etc.) on classes supplied by schools.
+  - name: UsersManagement
+    description: |
+      This enables the management of information about users (including students and teachers).
+
+
+paths:
+
+  /orgs.json:
+    get:
+      operationId: getAllOrgs
+      summary: The REST read request message for the getAllOrgs() API call.
+      tags:
+        - OrgsManagement
+      description: |
+        To read, get, a collection of orgs i.e. all orgs.
+      parameters:
+        - name: limit
+          in: query
+          description: |
+            To define the download segmentation value i.e. the maximum number of records to be contained in the response.
+          required: false
+          schema:
+            type: integer
+            format: int32
+            default: 100
+            minimum: 1
+          allowEmptyValue: false
+          style: form
+        - name: offset
+          in: query
+          description: |
+            The number of the first record to be supplied in the segmented response message.
+          required: false
+          schema:
+            type: integer
+            format: int32
+            default: 0
+            minimum: 0
+          allowEmptyValue: false
+          style: form
+        - name: sort
+          in: query
+          description: |
+            Identifies the sort criteria to be used for the records in the response message. Use with the orderBy parameter. The sort order should follow the [UNICODE, 16] standard.
+          required: false
+          schema:
+            type: string
+          allowEmptyValue: false
+          style: form
+        - name: orderBy
+          in: query
+          description: |
+            The form of ordering for response to the sorted request i.e. ascending (asc) or descending (desc). The sort order should follow the [UNICODE, 16] standard.
+          required: false
+          schema:
+            type: string
+            enum:
+            - asc
+            - desc
+          allowEmptyValue: false
+          style: form
+        - name: filter
+          in: query
+          description: |
+            The filtering rules to be applied when identifying the records to be supplied in the response message. The sort order should follow the [UNICODE, 16] standard.
+          required: false
+          schema:
+            type: string
+          allowEmptyValue: false
+          style: form
+        - name: fields
+          in: query
+          description: |
+            To identify the range of fields that should be supplied in the response message.
+          required: false
+          schema:
+            type: array
+            items:
+              type: string
+          allowEmptyValue: false
+          style: form
+      security:
+        - OAuth2CC:
+          - read
+      responses:
+        "default" :
+          description: |
+            This is the default error response when no other appropriate code is available.  This would be accompanied by the 'codeMajor/severity' values of 'failure/error'.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/imsx_StatusInfoDType"
+        "200" :
+          description: |
+            The request was successfully completed and a collection has been returned. This would be accompanied by the 'codeMajor/severity' values of 'success/status' and for a REST binding a HTTP code of '200'.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/OrgSetDType"
+          headers:
+            "X-Total-Count" :
+              description: |
+                The total number of resources that are available to be returned
+              schema:
+                type: integer
+          links:
+            "next" :
+              description: |
+                Get the next set of resources i.e. from offset to offset+limit
+              operationId: getAllOrgs
+              parameters:
+                "limit" : "$request.path.limit"
+                "offset" : "$request.path.offset"
+            "last" :
+              description: |
+                Get the last set of resources i.e. from offset to end
+              operationId: getAllOrgs
+              parameters:
+                "limit" : "$request.path.limit"
+                "offset" : "$request.path.offset"
+            "first" :
+              description: |
+                Get the first set of resources i.e. from first to limit
+              operationId: getAllOrgs
+              parameters:
+                "limit" : "$request.path.limit"
+                "offset" : "$request.path.offset"
+            "prev" :
+              description: |
+                Get the previous set of resources i.e. from last_offset to last_offset+limit
+              operationId: getAllOrgs
+              parameters:
+                "limit" : "$request.path.limit"
+                "offset" : "$request.path.offset"
+        "400" :
+          description: |
+            Either an invalid selection field or invalid filter selection was supplied and data filtering on the selection criteria was not possible i.e. 'invalid_selection_field' or  'invalid_filter_field' respectively. This is accompanied by the 'codeMajor/severity' values of 'failure/error'.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/imsx_StatusInfoDType"
+        "401" :
+          description: |
+            The request was not correctly authorised i.e. 'unauthorisedrequest'. This would be accompanied by the 'codeMajor/severity' values of 'failure/error'.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/imsx_StatusInfoDType"
+        "403" :
+          description: |
+            This is used to indicate that the server can be reached and process the request but refuses to take any further action i.e. 'forbidden'. This would be accompanied by the 'codeMajor/severity' values of 'failure/error'.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/imsx_StatusInfoDType"
+        "422" :
+          description: |
+            This error condition may occur if a JSON request body contains well-formed (i.e. syntactically correct), but semantically erroneous, JSON instructions. This would be accompanied by the 'codeMajor/severity' values of 'failure/error'.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/imsx_StatusInfoDType"
+        "429" :
+          description: |
+            The server is receiving too many requests i.e. 'server_busy'. Retry at a later time. This would be accompanied by the 'codeMajor/severity' values of 'failure/error'.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/imsx_StatusInfoDType"
+        "500" :
+          description: |
+            This code should be used only if there is catastrophic error and there is not a more appropriate code i.e. 'internal_server_error'. This would be accompanied by the 'codeMajor/severity' values of 'failure/error'.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/imsx_StatusInfoDType"
+
+  /classes.json:
+    get:
+      operationId: getAllClasses
+      summary: The REST read request message for the getAllClasses() API call.
+      tags:
+        - ClassesManagement
+      description: |
+        To read, get, a collection of classes i.e. all classes.
+      parameters:
+        - name: limit
+          in: query
+          description: |
+            To define the download segmentation value i.e. the maximum number of records to be contained in the response.
+          required: false
+          schema:
+            type: integer
+            format: int32
+            default: 100
+            minimum: 1
+          allowEmptyValue: false
+          style: form
+        - name: offset
+          in: query
+          description: |
+            The number of the first record to be supplied in the segmented response message.
+          required: false
+          schema:
+            type: integer
+            format: int32
+            default: 0
+            minimum: 0
+          allowEmptyValue: false
+          style: form
+        - name: sort
+          in: query
+          description: |
+            Identifies the sort criteria to be used for the records in the response message. Use with the orderBy parameter. The sort order should follow the [UNICODE, 16] standard.
+          required: false
+          schema:
+            type: string
+          allowEmptyValue: false
+          style: form
+        - name: orderBy
+          in: query
+          description: |
+            The form of ordering for response to the sorted request i.e. ascending (asc) or descending (desc). The sort order should follow the [UNICODE, 16] standard.
+          required: false
+          schema:
+            type: string
+            enum:
+            - asc
+            - desc
+          allowEmptyValue: false
+          style: form
+        - name: filter
+          in: query
+          description: |
+            The filtering rules to be applied when identifying the records to be supplied in the response message. The sort order should follow the [UNICODE, 16] standard.
+          required: false
+          schema:
+            type: string
+          allowEmptyValue: false
+          style: form
+        - name: fields
+          in: query
+          description: |
+            To identify the range of fields that should be supplied in the response message.
+          required: false
+          schema:
+            type: array
+            items:
+              type: string
+          allowEmptyValue: false
+          style: form
+      security:
+        - OAuth2CC:
+          - read
+      responses:
+        "default" :
+          description: |
+            This is the default error response when no other appropriate code is available.  This would be accompanied by the 'codeMajor/severity' values of 'failure/error'.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/imsx_StatusInfoDType"
+        "200" :
+          description: |
+            The request was successfully completed and a collection has been returned. This would be accompanied by the 'codeMajor/severity' values of 'success/status' and for a REST binding a HTTP code of '200'.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ClassSetDType"
+          headers:
+            "X-Total-Count" :
+              description: |
+                The total number of resources that are available to be returned
+              schema:
+                type: integer
+          links:
+            "next" :
+              description: |
+                Get the next set of resources i.e. from offset to offset+limit
+              operationId: getAllClasses
+              parameters:
+                "limit" : "$request.path.limit"
+                "offset" : "$request.path.offset"
+            "last" :
+              description: |
+                Get the last set of resources i.e. from offset to end
+              operationId: getAllClasses
+              parameters:
+                "limit" : "$request.path.limit"
+                "offset" : "$request.path.offset"
+            "first" :
+              description: |
+                Get the first set of resources i.e. from first to limit
+              operationId: getAllClasses
+              parameters:
+                "limit" : "$request.path.limit"
+                "offset" : "$request.path.offset"
+            "prev" :
+              description: |
+                Get the previous set of resources i.e. from last_offset to last_offset+limit
+              operationId: getAllClasses
+              parameters:
+                "limit" : "$request.path.limit"
+                "offset" : "$request.path.offset"
+        "400" :
+          description: |
+            Either an invalid selection field or invalid filter selection was supplied and data filtering on the selection criteria was not possible i.e. 'invalid_selection_field' or  'invalid_filter_field' respectively. This is accompanied by the 'codeMajor/severity' values of 'failure/error'.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/imsx_StatusInfoDType"
+        "401" :
+          description: |
+            The request was not correctly authorised i.e. 'unauthorisedrequest'. This would be accompanied by the 'codeMajor/severity' values of 'failure/error'.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/imsx_StatusInfoDType"
+        "403" :
+          description: |
+            This is used to indicate that the server can be reached and process the request but refuses to take any further action i.e. 'forbidden'. This would be accompanied by the 'codeMajor/severity' values of 'failure/error'.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/imsx_StatusInfoDType"
+        "422" :
+          description: |
+            This error condition may occur if a JSON request body contains well-formed (i.e. syntactically correct), but semantically erroneous, JSON instructions. This would be accompanied by the 'codeMajor/severity' values of 'failure/error'.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/imsx_StatusInfoDType"
+        "429" :
+          description: |
+            The server is receiving too many requests i.e. 'server_busy'. Retry at a later time. This would be accompanied by the 'codeMajor/severity' values of 'failure/error'.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/imsx_StatusInfoDType"
+        "500" :
+          description: |
+            This code should be used only if there is catastrophic error and there is not a more appropriate code i.e. 'internal_server_error'. This would be accompanied by the 'codeMajor/severity' values of 'failure/error'.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/imsx_StatusInfoDType"
+
+  /enrollments.json:
+    get:
+      operationId: getAllEnrollments
+      summary: The REST read request message for the getAllEnrollments() API call.
+      tags:
+        - EnrollmentsManagement
+      description: |
+        To read, get, a collection of enrollments i.e. all enrollments.
+      parameters:
+        - name: limit
+          in: query
+          description: |
+            To define the download segmentation value i.e. the maximum number of records to be contained in the response.
+          required: false
+          schema:
+            type: integer
+            format: int32
+            default: 100
+            minimum: 1
+          allowEmptyValue: false
+          style: form
+        - name: offset
+          in: query
+          description: |
+            The number of the first record to be supplied in the segmented response message.
+          required: false
+          schema:
+            type: integer
+            format: int32
+            default: 0
+            minimum: 0
+          allowEmptyValue: false
+          style: form
+        - name: sort
+          in: query
+          description: |
+            Identifies the sort criteria to be used for the records in the response message. Use with the orderBy parameter. The sort order should follow the [UNICODE, 16] standard.
+          required: false
+          schema:
+            type: string
+          allowEmptyValue: false
+          style: form
+        - name: orderBy
+          in: query
+          description: |
+            The form of ordering for response to the sorted request i.e. ascending (asc) or descending (desc). The sort order should follow the [UNICODE, 16] standard.
+          required: false
+          schema:
+            type: string
+            enum:
+            - asc
+            - desc
+          allowEmptyValue: false
+          style: form
+        - name: filter
+          in: query
+          description: |
+            The filtering rules to be applied when identifying the records to be supplied in the response message. The sort order should follow the [UNICODE, 16] standard.
+          required: false
+          schema:
+            type: string
+          allowEmptyValue: false
+          style: form
+        - name: fields
+          in: query
+          description: |
+            To identify the range of fields that should be supplied in the response message.
+          required: false
+          schema:
+            type: array
+            items:
+              type: string
+          allowEmptyValue: false
+          style: form
+      security:
+        - OAuth2CC:
+          - read
+      responses:
+        "default" :
+          description: |
+            This is the default error response when no other appropriate code is available.  This would be accompanied by the 'codeMajor/severity' values of 'failure/error'.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/imsx_StatusInfoDType"
+        "200" :
+          description: |
+            The request was successfully completed and a collection has been returned. This would be accompanied by the 'codeMajor/severity' values of 'success/status' and for a REST binding a HTTP code of '200'.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/EnrollmentSetDType"
+          headers:
+            "X-Total-Count" :
+              description: |
+                The total number of resources that are available to be returned
+              schema:
+                type: integer
+          links:
+            "next" :
+              description: |
+                Get the next set of resources i.e. from offset to offset+limit
+              operationId: getAllEnrollments
+              parameters:
+                "limit" : "$request.path.limit"
+                "offset" : "$request.path.offset"
+            "last" :
+              description: |
+                Get the last set of resources i.e. from offset to end
+              operationId: getAllEnrollments
+              parameters:
+                "limit" : "$request.path.limit"
+                "offset" : "$request.path.offset"
+            "first" :
+              description: |
+                Get the first set of resources i.e. from first to limit
+              operationId: getAllEnrollments
+              parameters:
+                "limit" : "$request.path.limit"
+                "offset" : "$request.path.offset"
+            "prev" :
+              description: |
+                Get the previous set of resources i.e. from last_offset to last_offset+limit
+              operationId: getAllEnrollments
+              parameters:
+                "limit" : "$request.path.limit"
+                "offset" : "$request.path.offset"
+        "400" :
+          description: |
+            Either an invalid selection field or invalid filter selection was supplied and data filtering on the selection criteria was not possible i.e. 'invalid_selection_field' or  'invalid_filter_field' respectively. This is accompanied by the 'codeMajor/severity' values of 'failure/error'.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/imsx_StatusInfoDType"
+        "401" :
+          description: |
+            The request was not correctly authorised i.e. 'unauthorisedrequest'. This would be accompanied by the 'codeMajor/severity' values of 'failure/error'.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/imsx_StatusInfoDType"
+        "403" :
+          description: |
+            This is used to indicate that the server can be reached and process the request but refuses to take any further action i.e. 'forbidden'. This would be accompanied by the 'codeMajor/severity' values of 'failure/error'.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/imsx_StatusInfoDType"
+        "422" :
+          description: |
+            This error condition may occur if a JSON request body contains well-formed (i.e. syntactically correct), but semantically erroneous, JSON instructions. This would be accompanied by the 'codeMajor/severity' values of 'failure/error'.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/imsx_StatusInfoDType"
+        "429" :
+          description: |
+            The server is receiving too many requests i.e. 'server_busy'. Retry at a later time. This would be accompanied by the 'codeMajor/severity' values of 'failure/error'.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/imsx_StatusInfoDType"
+        "500" :
+          description: |
+            This code should be used only if there is catastrophic error and there is not a more appropriate code i.e. 'internal_server_error'. This would be accompanied by the 'codeMajor/severity' values of 'failure/error'.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/imsx_StatusInfoDType"
+
+  /users.json:
+    get:
+      operationId: getAllUsers
+      summary: The REST read request message for the getAllUsers() API call.
+      tags:
+        - UsersManagement
+      description: |
+        To read, get, a collection of users i.e. all users (including students and teachers).
+      parameters:
+        - name: limit
+          in: query
+          description: |
+            To define the download segmentation value i.e. the maximum number of records to be contained in the response.
+          required: false
+          schema:
+            type: integer
+            format: int32
+            default: 100
+            minimum: 1
+          allowEmptyValue: false
+          style: form
+        - name: offset
+          in: query
+          description: |
+            The number of the first record to be supplied in the segmented response message.
+          required: false
+          schema:
+            type: integer
+            format: int32
+            default: 0
+            minimum: 0
+          allowEmptyValue: false
+          style: form
+        - name: sort
+          in: query
+          description: |
+            Identifies the sort criteria to be used for the records in the response message. Use with the orderBy parameter. The sort order should follow the [UNICODE, 16] standard.
+          required: false
+          schema:
+            type: string
+          allowEmptyValue: false
+          style: form
+        - name: orderBy
+          in: query
+          description: |
+            The form of ordering for response to the sorted request i.e. ascending (asc) or descending (desc). The sort order should follow the [UNICODE, 16] standard.
+          required: false
+          schema:
+            type: string
+            enum:
+            - asc
+            - desc
+          allowEmptyValue: false
+          style: form
+        - name: filter
+          in: query
+          description: |
+            The filtering rules to be applied when identifying the records to be supplied in the response message. The sort order should follow the [UNICODE, 16] standard.
+          required: false
+          schema:
+            type: string
+          allowEmptyValue: false
+          style: form
+        - name: fields
+          in: query
+          description: |
+            To identify the range of fields that should be supplied in the response message.
+          required: false
+          schema:
+            type: array
+            items:
+              type: string
+          allowEmptyValue: false
+          style: form
+      security:
+        - OAuth2CC:
+          - read
+      responses:
+        "default" :
+          description: |
+            This is the default error response when no other appropriate code is available.  This would be accompanied by the 'codeMajor/severity' values of 'failure/error'.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/imsx_StatusInfoDType"
+        "200" :
+          description: |
+            The request was successfully completed and a collection has been returned. This would be accompanied by the 'codeMajor/severity' values of 'success/status' and for a REST binding a HTTP code of '200'.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/UserSetDType"
+          headers:
+            "X-Total-Count" :
+              description: |
+                The total number of resources that are available to be returned
+              schema:
+                type: integer
+          links:
+            "next" :
+              description: |
+                Get the next set of resources i.e. from offset to offset+limit
+              operationId: getAllUsers
+              parameters:
+                "limit" : "$request.path.limit"
+                "offset" : "$request.path.offset"
+            "last" :
+              description: |
+                Get the last set of resources i.e. from offset to end
+              operationId: getAllUsers
+              parameters:
+                "limit" : "$request.path.limit"
+                "offset" : "$request.path.offset"
+            "first" :
+              description: |
+                Get the first set of resources i.e. from first to limit
+              operationId: getAllUsers
+              parameters:
+                "limit" : "$request.path.limit"
+                "offset" : "$request.path.offset"
+            "prev" :
+              description: |
+                Get the previous set of resources i.e. from last_offset to last_offset+limit
+              operationId: getAllUsers
+              parameters:
+                "limit" : "$request.path.limit"
+                "offset" : "$request.path.offset"
+        "400" :
+          description: |
+            Either an invalid selection field or invalid filter selection was supplied and data filtering on the selection criteria was not possible i.e. 'invalid_selection_field' or  'invalid_filter_field' respectively. This is accompanied by the 'codeMajor/severity' values of 'failure/error'.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/imsx_StatusInfoDType"
+        "401" :
+          description: |
+            The request was not correctly authorised i.e. 'unauthorisedrequest'. This would be accompanied by the 'codeMajor/severity' values of 'failure/error'.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/imsx_StatusInfoDType"
+        "403" :
+          description: |
+            This is used to indicate that the server can be reached and process the request but refuses to take any further action i.e. 'forbidden'. This would be accompanied by the 'codeMajor/severity' values of 'failure/error'.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/imsx_StatusInfoDType"
+        "422" :
+          description: |
+            This error condition may occur if a JSON request body contains well-formed (i.e. syntactically correct), but semantically erroneous, JSON instructions. This would be accompanied by the 'codeMajor/severity' values of 'failure/error'.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/imsx_StatusInfoDType"
+        "429" :
+          description: |
+            The server is receiving too many requests i.e. 'server_busy'. Retry at a later time. This would be accompanied by the 'codeMajor/severity' values of 'failure/error'.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/imsx_StatusInfoDType"
+        "500" :
+          description: |
+            This code should be used only if there is catastrophic error and there is not a more appropriate code i.e. 'internal_server_error'. This would be accompanied by the 'codeMajor/severity' values of 'failure/error'.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/imsx_StatusInfoDType"
+
+
+components:
+  securitySchemes:
+    OAuth2CC:
+      type: oauth2
+      description: |
+        OAuth 2 Client Credentials
+      flows:
+        clientCredentials:
+          tokenUrl: ./oauth2.json
+          scopes:
+            read: 読取
+
+  schemas:
+    AcadSessionGUIDRefDType:
+      description: |
+        This is the container for reference to a OneRoster 'Academic Session' object that has an allocated sourcedId (GUID).
+      type: object
+      required:
+        - href
+        - sourcedId
+        - type
+      properties:
+        href:
+          description: The URI for the type of object being referenced. Model Primitive Datatype = AnyURI.
+          type: string
+          format: uri
+        sourcedId:
+          description: The globally unique identifier of the object being referenced. Model Primitive Datatype = String.
+          type: string
+        type:
+          description: |
+            The type of object being referenced i.e. an 'academicSession'.
+          type: string
+          enum:
+             - academicSession
+      additionalProperties: false
+    AcademicSessionDType:
+      description: |
+        The container for an academicSession. An academicSession represents a duration of time. Typically they are used to describe terms, grading periods, and other durations e.g. school years. Term is used to describe a period of time during which learning will take place. Other words for term could be in common use around the world e.g. Semester. The important thing is that Term is a unit of time, often many weeks long, into which classes are scheduled. Grading Period is used to represent another unit of time, that within which line items are assessed. A term may have many grading periods, a grading period belongs to a single term. A class may be assessed over several grade periods (represented by a line item being connected to a grading period). The parent / child attributes of academic sessions allow terms to be connected to their grading periods and vice-versa.
+      type: object
+      required:
+        - sourcedId
+        - status
+        - dateLastModified
+        - title
+        - startDate
+        - endDate
+        - type
+        - schoolYear
+      properties:
+        sourcedId:
+          description: The sourcedId of the object. All objects MUST be identified by a Source Identifier. This is a GUID  System ID for an object. This is the GUID that SYSTEMS will refer to when making API calls, or when needing to identify an object. It is RECOMMENDED that systems are able to map whichever local ids (e.g. database key fields) they use to SourcedId.  The sourcedId of an object is considered an addressable property of an entity and as such will not be treated as Personally Identifiable Information (PII) by certified products.  Therefore, as a part of certification, vendors will be required to declare that they will notify customers via documentation or other formal and documented agreement that sourcedIds should never contain PII in general, but particularly users. This means that if a customer includes a student name in an enrollment.sourcedId, it will not fall to any certified product to protect the enrollment.sourcedId as PII, or even the userSourcedId field in the enrollment record. Model Primitive Datatype = String.
+          type: string
+        status:
+          description: |
+            All objects MUST BE either 'active' or 'tobedeleted'.  Something which is flagged 'tobedeleted' is to be considered safe to delete. Systems can delete records that are flagged as such if they wish, but they are not under any compulsion to do so. In v1.1 the enumeration value of 'inactive' was removed and so for backwards compatibility all such marked objects should be interpreted as 'tobedeleted'.
+          type: string
+          enum:
+             - active
+             - tobedeleted
+        dateLastModified:
+          description: All objects MUST be annotated with the dateTime upon which they were last modified. This enables requesters to query for just the latest objects. DateTimes MUST be expressed in W3C profile of [ISO 8601] and MUST contain the UTC timezone. Model Primitive Datatype = DateTime.
+          type: string
+          format: date-time
+        metadata:
+          $ref: "#/components/schemas/MetadataDType"
+        title:
+          description: The title/label for the academic session. Model Primitive Datatype = NormalizedString.
+          type: string
+        startDate:
+          description: The start date for the academic session. The start date is included in the academic session. This is in [ISO 8601] format of 'YYYY-MM-DD'. Model Primitive Datatype = Date.
+          type: string
+          format: date
+        endDate:
+          description: The end date for the academic session. The end date is excluded from the academic session. This is in [ISO 8601] format of 'YYYY-MM-DD'. Model Primitive Datatype = Date.
+          type: string
+          format: date
+        type:
+          description: |
+            The type of academic session. This is based upon an enumerated vocabulary.
+          enum:
+            - gradingPeriod
+            - semester
+            - schoolYear
+            - term
+        parent:
+          $ref: "#/components/schemas/AcadSessionGUIDRefDType"
+        children:
+          description: |
+            The set of links to the child AcademicSessions i.e. a set of AcademicSession 'sourcedIds'.
+          type: array
+          minItems: 0
+          items:
+            $ref: "#/components/schemas/AcadSessionGUIDRefDType"
+        schoolYear:
+          description: The school year for the academic session.  This year should include the school year end e.g. 2014. This is in the [ISO 8601] format of 'YYYY'. Model Primitive Datatype = NormalizedString.
+          type: string
+      additionalProperties: false
+    AcademicSessionSetDType:
+      description: |
+        This is the container for a collection of academicSessions instances for a message payload. This may be empty if no instances are found that sustain the applied query constraints. The order is not significant.
+      type: object
+      properties:
+        academicSessions:
+          description: |
+            The collection of academicSession instances. The order is not significant. The corresponding query constraints may result in no instances being returned.
+          type: array
+          minItems: 0
+          items:
+            $ref: "#/components/schemas/AcademicSessionDType"
+      additionalProperties: false
+    ClassDType:
+      description: |
+        A class is an instance of a course, onto which students and teachers are enrolled. A class is typically held within a term.
+      type: object
+      required:
+        - sourcedId
+        - status
+        - dateLastModified
+        - title
+        - course
+        - school
+        - terms
+      properties:
+        sourcedId:
+          description: The sourcedId of the object. All objects MUST be identified by a Source Identifier. This is a GUID  System ID for an object. This is the GUID that SYSTEMS will refer to when making API calls, or when needing to identify an object. It is RECOMMENDED that systems are able to map whichever local ids (e.g. database key fields) they use to SourcedId.  The sourcedId of an object is considered an addressable property of an entity and as such will not be treated as Personally Identifiable Information (PII) by certified products.  Therefore, as a part of certification, vendors will be required to declare that they will notify customers via documentation or other formal and documented agreement that sourcedIds should never contain PII in general, but particularly users. This means that if a customer includes a student name in an enrollment.sourcedId, it will not fall to any certified product to protect the enrollment.sourcedId as PII, or even the userSourcedId field in the enrollment record. Model Primitive Datatype = String.
+          type: string
+        status:
+          description: |
+            All objects MUST BE either 'active' or 'tobedeleted'.  Something which is flagged 'tobedeleted' is to be considered safe to delete. Systems can delete records that are flagged as such if they wish, but they are not under any compulsion to do so. In v1.1 the enumeration value of 'inactive' was removed and so for backwards compatibility all such marked objects should be interpreted as 'tobedeleted'.
+          type: string
+          enum:
+             - active
+             - tobedeleted
+        dateLastModified:
+          description: All objects MUST be annotated with the dateTime upon which they were last modified. This enables requesters to query for just the latest objects. DateTimes MUST be expressed in W3C profile of [ISO 8601] and MUST contain the UTC timezone. Model Primitive Datatype = DateTime.
+          type: string
+          format: date-time
+        metadata:
+          $ref: "#/components/schemas/MetadataDType"
+        title:
+          description: The tile/label for the class. Model Primitive Datatype = NormalizedString.
+          type: string
+        classCode:
+          description: The class code. Model Primitive Datatype = NormalizedString.
+          type: string
+        classType:
+          description: |
+            The type of class. This is based upon an enumerated vocabulary.
+          enum:
+            - homeroom
+            - scheduled
+        location:
+          description: The location for the class e.g. 'Room 19'. Model Primitive Datatype = NormalizedString.
+          type: string
+        grades:
+          description: The grade(s) who attend the class. The permitted vocabulary should be defined as part of the adoption and deployment process. See the Implementation Guide [OR-IMPL-12] for more details on how to define/use such a vocabulary. Model Primitive Datatype = NormalizedString.
+          type: array
+          minItems: 0
+          items:
+            type: string
+        subjects:
+          description: The set of subjects addressed by this class e.g. 'chemistry'. Model Primitive Datatype = NormalizedString.
+          type: array
+          minItems: 0
+          items:
+            type: string
+        course:
+          $ref: "#/components/schemas/CourseGUIDRefDType"
+        school:
+          $ref: "#/components/schemas/OrgGUIDRefDType"
+        terms:
+          description: |
+            The links to the set of terms or semesters (academicSession) i.e. the set of 'sourcedIds' for the terms within the associated school year.
+          type: array
+          minItems: 1
+          items:
+            $ref: "#/components/schemas/AcadSessionGUIDRefDType"
+        subjectCodes:
+          description: This is a machine readable set of codes and the number should match the associated 'subjects' attribute. The vocabulary for this characteristic should be defined as part of the local addition of this specification (see the Implementation Guide [OR-IMPL-12] for more details). Model Primitive Datatype = NormalizedString.
+          type: array
+          minItems: 0
+          items:
+            type: string
+        periods:
+          description: The time slots in the day that the class will be given. Examples are 1 or a list of 1, 3, 5, etc. Model Primitive Datatype = NormalizedString.
+          type: array
+          minItems: 0
+          items:
+            type: string
+        resources:
+          description: |
+            The links to the set of associated resources i.e. the Resource 'sourcedIds'.
+          type: array
+          minItems: 0
+          items:
+            $ref: "#/components/schemas/ResourceGUIDRefDType"
+      additionalProperties: false
+    ClassGUIDRefDType:
+      description: |
+        This is the container for reference to a OneRoster 'Class' object that has an allocated sourcedId (GUID).
+      type: object
+      required:
+        - href
+        - sourcedId
+        - type
+      properties:
+        href:
+          description: The URI for the type of object being referenced. Model Primitive Datatype = AnyURI.
+          type: string
+          format: uri
+        sourcedId:
+          description: The globally unique identifier of the object being referenced. Model Primitive Datatype = String.
+          type: string
+        type:
+          description: |
+            The type of object being referenced i.e. a 'class'.
+          type: string
+          enum:
+             - class
+      additionalProperties: false
+    ClassSetDType:
+      description: |
+        This is the container for a collection of classes instances for a message payload. This may be empty if no instances are found that sustain the applied query constraints. The order is not significant.
+      type: object
+      properties:
+        classes:
+          description: |
+            The collection of class instances. The order is not significant. The corresponding query constraints may result in no instances being returned.
+          type: array
+          minItems: 0
+          items:
+            $ref: "#/components/schemas/ClassDType"
+      additionalProperties: false
+    CourseDType:
+      description: |
+        The information about a course. A Course is a course of study that, typically, has a shared curriculum although it may be taught to different students by different teachers. It is likely that several classes of a single course may be taught in a term. For example, a school runs Grade 9 English in the spring term. There are four classes, each with a different 30 students, taught by 4 different teachers. However the curriculum for each of those four classes is the same i.e. the course curriculum.
+      type: object
+      required:
+        - sourcedId
+        - status
+        - dateLastModified
+        - title
+        - courseCode
+      properties:
+        sourcedId:
+          description: The sourcedId of the object. All objects MUST be identified by a Source Identifier. This is a GUID  System ID for an object. This is the GUID that SYSTEMS will refer to when making API calls, or when needing to identify an object. It is RECOMMENDED that systems are able to map whichever local ids (e.g. database key fields) they use to SourcedId.  The sourcedId of an object is considered an addressable property of an entity and as such will not be treated as Personally Identifiable Information (PII) by certified products.  Therefore, as a part of certification, vendors will be required to declare that they will notify customers via documentation or other formal and documented agreement that sourcedIds should never contain PII in general, but particularly users. This means that if a customer includes a student name in an enrollment.sourcedId, it will not fall to any certified product to protect the enrollment.sourcedId as PII, or even the userSourcedId field in the enrollment record. Model Primitive Datatype = String.
+          type: string
+        status:
+          description: |
+            All objects MUST BE either 'active' or 'tobedeleted'.  Something which is flagged 'tobedeleted' is to be considered safe to delete. Systems can delete records that are flagged as such if they wish, but they are not under any compulsion to do so. In v1.1 the enumeration value of 'inactive' was removed and so for backwards compatibility all such marked objects should be interpreted as 'tobedeleted'.
+          type: string
+          enum:
+             - active
+             - tobedeleted
+        dateLastModified:
+          description: All objects MUST be annotated with the dateTime upon which they were last modified. This enables requesters to query for just the latest objects. DateTimes MUST be expressed in W3C profile of [ISO 8601] and MUST contain the UTC timezone. Model Primitive Datatype = DateTime.
+          type: string
+          format: date-time
+        metadata:
+          $ref: "#/components/schemas/MetadataDType"
+        title:
+          description: The title of the course. Model Primitive Datatype = NormalizedString.
+          type: string
+        schoolYear:
+          $ref: "#/components/schemas/AcadSessionGUIDRefDType"
+        courseCode:
+          description: The assigned course code. Model Primitive Datatype = NormalizedString.
+          type: string
+        grades:
+          description: Grade(s) for which the class is attended. The permitted vocabulary should be defined as part of the adoption and deployment process. See the Implementation Guide [OR-IMPL-12] for more details on how to define/use such a vocabulary. Model Primitive Datatype = NormalizedString.
+          type: array
+          minItems: 0
+          items:
+            type: string
+        subjects:
+          description: The set of subjects addresse by this course. This is a set of human readable strings.   Model Primitive Datatype = NormalizedString.
+          type: array
+          minItems: 0
+          items:
+            type: string
+        org:
+          $ref: "#/components/schemas/OrgGUIDRefDType"
+        subjectCodes:
+          description: This is a machine readable set of codes and the number should match the associated 'subjects' attribute. The vocabulary for this characteristic should be defined as part of the local addition of this specification (see the Implementation Guide [OR-IMPL-12] for more details). Model Primitive Datatype = NormalizedString.
+          type: array
+          minItems: 0
+          items:
+            type: string
+        resources:
+          description: |
+            The links to the associated resources if applicable i.e. the resource 'sourcedIds'.
+          type: array
+          minItems: 0
+          items:
+            $ref: "#/components/schemas/ResourceGUIDRefDType"
+      additionalProperties: false
+    CourseGUIDRefDType:
+      description: |
+        This is the container for reference to a OneRoster 'Course' object that has an allocated sourcedId (GUID).
+      type: object
+      required:
+        - href
+        - sourcedId
+        - type
+      properties:
+        href:
+          description: The URI for the type of object being referenced. Model Primitive Datatype = AnyURI.
+          type: string
+          format: uri
+        sourcedId:
+          description: The globally unique identifier of the object being referenced. Model Primitive Datatype = String.
+          type: string
+        type:
+          description: |
+            The type of object being referenced i.e. a 'course'.
+          type: string
+          enum:
+             - course
+      additionalProperties: false
+    CourseSetDType:
+      description: |
+        This is the container for a collection of courses instances for a message payload. This may be empty if no instances are found that sustain the applied query constraints. The order is not significant.
+      type: object
+      properties:
+        courses:
+          description: |
+            The collection of course instances. The order is not significant. The corresponding query constraints may result in no instances being returned.
+          type: array
+          minItems: 0
+          items:
+            $ref: "#/components/schemas/CourseDType"
+      additionalProperties: false
+    CredentialDType:
+      description: |
+        The container for a single set of credentials for an account.
+      type: object
+      required:
+        - type
+        - username
+      properties:
+        type:
+          description: The type of credentials for the profile. This should be indicative of when this specific credential should be used. Model Primitive Datatype = String.
+          type: string
+        username:
+          description: The username. Model Primitive Datatype = NormalizedString.
+          type: string
+        password:
+          description: The password in this set of credentials.  Care should be taken to ensure that no unencrypted value is revealed. Model Primitive Datatype = String.
+          type: string
+      additionalProperties: true
+    DemographicsDType:
+      description: |
+        Demographics information is taken from the Common Educational Data Standards (CEDS) from the US government. (http://ceds.ed.gov). Note that demographics data is held in its own service, and that access to this service is considered privileged. Not all consumer keys will be able to request demographics data.
+      type: object
+      required:
+        - sourcedId
+        - status
+        - dateLastModified
+      properties:
+        sourcedId:
+          description: The sourcedId of the object. All objects MUST be identified by a Source Identifier. This is a GUID  System ID for an object. This is the GUID that SYSTEMS will refer to when making API calls, or when needing to identify an object. It is RECOMMENDED that systems are able to map whichever local ids (e.g. database key fields) they use to SourcedId.  The sourcedId of an object is considered an addressable property of an entity and as such will not be treated as Personally Identifiable Information (PII) by certified products.  Therefore, as a part of certification, vendors will be required to declare that they will notify customers via documentation or other formal and documented agreement that sourcedIds should never contain PII in general, but particularly users. This means that if a customer includes a student name in an enrollment.sourcedId, it will not fall to any certified product to protect the enrollment.sourcedId as PII, or even the userSourcedId field in the enrollment record. Model Primitive Datatype = String.
+          type: string
+        status:
+          description: |
+            All objects MUST BE either 'active' or 'tobedeleted'.  Something which is flagged 'tobedeleted' is to be considered safe to delete. Systems can delete records that are flagged as such if they wish, but they are not under any compulsion to do so. In v1.1 the enumeration value of 'inactive' was removed and so for backwards compatibility all such marked objects should be interpreted as 'tobedeleted'.
+          type: string
+          enum:
+             - active
+             - tobedeleted
+        dateLastModified:
+          description: All objects MUST be annotated with the dateTime upon which they were last modified. This enables requesters to query for just the latest objects. DateTimes MUST be expressed in W3C profile of [ISO 8601] and MUST contain the UTC timezone. Model Primitive Datatype = DateTime.
+          type: string
+          format: date-time
+        metadata:
+          $ref: "#/components/schemas/MetadataDType"
+        birthDate:
+          description: the date of birth. The format is [ISO 8601] of 'YYYY-MM-DD'. Model Primitive Datatype = Date.
+          type: string
+          format: date
+        sex:
+          description: |
+            The sex of the individual. The permitted values are from an enumerated list.
+          enum:
+            - male
+            - female
+            - unspecified
+            - other
+        americanIndianOrAlaskaNative:
+          description: |
+            Identification of whether or not the user is an American Indian or Alaska Native ethnicity.
+          type: string
+          enum:
+             - true
+             - false
+        asian:
+          description: |
+            Identification of whether or not the user is of Asian ethnicity.
+          type: string
+          enum:
+             - true
+             - false
+        blackOrAfricanAmerican:
+          description: |
+            Identification of whether or not the user is black or African American ethnicity.
+          type: string
+          enum:
+             - true
+             - false
+        nativeHawaiianOrOtherPacificIslander:
+          description: |
+            Identification of whether or not the user is Native Hawaiian or Other Pacific Islander ethnicity.
+          type: string
+          enum:
+             - true
+             - false
+        white:
+          description: |
+            Identification of whether or not the user is of white ethnicity.
+          type: string
+          enum:
+             - true
+             - false
+        demographicRaceTwoOrMoreRaces:
+          description: |
+            Identification of whether or not the user has a demographic of two or more race ethnicities.
+          type: string
+          enum:
+             - true
+             - false
+        hispanicOrLatinoEthnicity:
+          description: |
+            Identification of whether or not the user is Hispanic or of Latino ethnicity.
+          type: string
+          enum:
+             - true
+             - false
+        countryOfBirthCode:
+          description: The country of birth code. The permitted vocabulary should be defined as part of the adoption and deployment process. See the Implementation Guide [OR-IMPL-12] for more details on how to define/use such a vocabulary. Model Primitive Datatype = NormalizedString.
+          type: string
+        stateOfBirthAbbreviation:
+          description: The abbreviation for the name of the state (within the United States) or extra-state jurisdiction in which a person was born. The permitted vocabulary should be defined as part of the adoption and deployment process. See the Implementation Guide [OR-IMPL-12] for more details on how to define/use such a vocabulary. Model Primitive Datatype = NormalizedString.
+          type: string
+        cityOfBirth:
+          description: The name of the city in which the user was born. Model Primitive Datatype = NormalizedString.
+          type: string
+        publicSchoolResidenceStatus:
+          description: An indication of the location of a person's legal residence relative to (within or outside) the boundaries of the public school attended and its administrative unit. The permitted vocabulary should be defined as part of the adoption and deployment process. See the Implementation Guide [OR-IMPL-12] for more details on how to define/use such a vocabulary. Model Primitive Datatype = NormalizedString.
+          type: string
+      additionalProperties: false
+    DemographicsSetDType:
+      description: |
+        This is the container for a collection of demographics instances for a message payload. This may be empty if no instances are found that sustain the applied query constraints. The order is not significant.
+      type: object
+      properties:
+        demographics:
+          description: |
+            The collection of demographics instances. The order is not significant. The corresponding query constraints may result in no instances being returned.
+          type: array
+          minItems: 0
+          items:
+            $ref: "#/components/schemas/DemographicsDType"
+      additionalProperties: false
+    EnrollmentDType:
+      description: |
+        An enrollment is the name given to an individual taking part in a class. In the vast majority of cases, users will be students learning in a class, or teachers teaching the class. Other roles are also possible.
+      type: object
+      required:
+        - sourcedId
+        - status
+        - dateLastModified
+        - user
+        - class
+        - school
+        - role
+      properties:
+        sourcedId:
+          description: The sourcedId of the object. All objects MUST be identified by a Source Identifier. This is a GUID  System ID for an object. This is the GUID that SYSTEMS will refer to when making API calls, or when needing to identify an object. It is RECOMMENDED that systems are able to map whichever local ids (e.g. database key fields) they use to SourcedId.  The sourcedId of an object is considered an addressable property of an entity and as such will not be treated as Personally Identifiable Information (PII) by certified products.  Therefore, as a part of certification, vendors will be required to declare that they will notify customers via documentation or other formal and documented agreement that sourcedIds should never contain PII in general, but particularly users. This means that if a customer includes a student name in an enrollment.sourcedId, it will not fall to any certified product to protect the enrollment.sourcedId as PII, or even the userSourcedId field in the enrollment record. Model Primitive Datatype = String.
+          type: string
+        status:
+          description: |
+            All objects MUST BE either 'active' or 'tobedeleted'.  Something which is flagged 'tobedeleted' is to be considered safe to delete. Systems can delete records that are flagged as such if they wish, but they are not under any compulsion to do so. In v1.1 the enumeration value of 'inactive' was removed and so for backwards compatibility all such marked objects should be interpreted as 'tobedeleted'.
+          type: string
+          enum:
+             - active
+             - tobedeleted
+        dateLastModified:
+          description: All objects MUST be annotated with the dateTime upon which they were last modified. This enables requesters to query for just the latest objects. DateTimes MUST be expressed in W3C profile of [ISO 8601] and MUST contain the UTC timezone. Model Primitive Datatype = DateTime.
+          type: string
+          format: date-time
+        metadata:
+          $ref: "#/components/schemas/MetadataDType"
+        user:
+          $ref: "#/components/schemas/UserGUIDRefDType"
+        class:
+          $ref: "#/components/schemas/ClassGUIDRefDType"
+        school:
+          $ref: "#/components/schemas/OrgGUIDRefDType"
+        role:
+          description: |
+            The role of the user for this class in the school e.g teacher, student, etc. This is from an enumerated vocabulary.
+          enum:
+            - administrator
+            - proctor
+            - student
+            - teacher
+        primary:
+          description: |
+            Applicable only to teachers. Only one teacher should be designated as the primary teacher for a class (this value set as 'true') in the period defined by the begin/end dates.
+          type: string
+          enum:
+             - true
+             - false
+        beginDate:
+          description: The start date for the enrollment (inclusive). This date must be within the period of the associated Academic Session for the class (Term/Semester/SchoolYear). Use the [ISO 8601] format of 'YYYY-MM-DD'. Model Primitive Datatype = Date.
+          type: string
+          format: date
+        endDate:
+          description: The end date for the enrollment (exclusive).  This date must be within the period of the associated Academic Session for the class (Term/Semester/SchoolYear). Use the [ISO 8601] format of 'YYYY-MM-DD'. Model Primitive Datatype = Date.
+          type: string
+          format: date
+      additionalProperties: false
+    EnrollmentSetDType:
+      description: |
+        This is the container for a collection of enrollment instances for a message payload. This may be empty if no instances are found that sustain the applied query constraints. The order is not significant.
+      type: object
+      properties:
+        enrollments:
+          description: |
+            The collection of enrollment instances. The order is not significant. The corresponding query constraints may result in no instances being returned.
+          type: array
+          minItems: 0
+          items:
+            $ref: "#/components/schemas/EnrollmentDType"
+      additionalProperties: false
+    MetadataDType:
+      description: |
+        The container for the proprietary extensions.
+      type: object
+      properties: {}
+      additionalProperties: true
+    OrgDType:
+      description: |
+        ORG is defined here as a structure for holding organizational information. An ORG might be a school, or it might be a local, statewide, or national entity. ORGs will typically have a parent ORG (up to the national level), and children, allowing a hierarchy to be established. School is defined here as the place where the learning happens. Most commonly this is the data that describes a bricks and mortar building, or, in the case of a virtual school, the virtual school organization. For enrollment and result reporting purposes, little information about this organization is required. A common example of a local organization is a school district.
+      type: object
+      required:
+        - sourcedId
+        - status
+        - dateLastModified
+        - name
+        - type
+        - identifier
+      properties:
+        sourcedId:
+          description: The sourcedId of the object. All objects MUST be identified by a Source Identifier. This is a GUID  System ID for an object. This is the GUID that SYSTEMS will refer to when making API calls, or when needing to identify an object. It is RECOMMENDED that systems are able to map whichever local ids (e.g. database key fields) they use to SourcedId.  The sourcedId of an object is considered an addressable property of an entity and as such will not be treated as Personally Identifiable Information (PII) by certified products.  Therefore, as a part of certification, vendors will be required to declare that they will notify customers via documentation or other formal and documented agreement that sourcedIds should never contain PII in general, but particularly users. This means that if a customer includes a student name in an enrollment.sourcedId, it will not fall to any certified product to protect the enrollment.sourcedId as PII, or even the userSourcedId field in the enrollment record. Model Primitive Datatype = String.
+          type: string
+        status:
+          description: |
+            All objects MUST BE either 'active' or 'tobedeleted'.  Something which is flagged 'tobedeleted' is to be considered safe to delete. Systems can delete records that are flagged as such if they wish, but they are not under any compulsion to do so. In v1.1 the enumeration value of 'inactive' was removed and so for backwards compatibility all such marked objects should be interpreted as 'tobedeleted'.
+          type: string
+          enum:
+             - active
+             - tobedeleted
+        dateLastModified:
+          description: All objects MUST be annotated with the dateTime upon which they were last modified. This enables requesters to query for just the latest objects. DateTimes MUST be expressed in W3C profile of [ISO 8601] and MUST contain the UTC timezone. Model Primitive Datatype = DateTime.
+          type: string
+          format: date-time
+        metadata:
+          $ref: "#/components/schemas/MetadataDType"
+        name:
+          description: The name of the organization. Model Primitive Datatype = NormalizedString.
+          type: string
+        type:
+          description: |
+            The type of organization. This uses a predefined vocabulary.
+          enum:
+            - department
+            - district
+            - local
+            - national
+            - school
+            - state
+        identifier:
+          description: Human readable identifier for this org e.g. NCES ID. Model Primitive Datatype = String.
+          type: string
+        parent:
+          $ref: "#/components/schemas/OrgGUIDRefDType"
+        children:
+          description: |
+            The 'sourcedIds' for the set of child organizations.
+          type: array
+          minItems: 0
+          items:
+            $ref: "#/components/schemas/OrgGUIDRefDType"
+      additionalProperties: false
+    OrgGUIDRefDType:
+      description: |
+        This is the container for reference to a OneRoster 'Org' object that has an allocated sourcedId (GUID).
+      type: object
+      required:
+        - href
+        - sourcedId
+        - type
+      properties:
+        href:
+          description: The URI for the type of object being referenced. Model Primitive Datatype = AnyURI.
+          type: string
+          format: uri
+        sourcedId:
+          description: The globally unique identifier of the object being referenced. Model Primitive Datatype = String.
+          type: string
+        type:
+          description: |
+            The type of object being referenced i.e. an 'org'.
+          type: string
+          enum:
+             - org
+      additionalProperties: false
+    OrgSetDType:
+      description: |
+        This is the container for a collection of org instances for a message payload. This may be empty if no instances are found that sustain the applied query constraints. The order is not significant.
+      type: object
+      properties:
+        orgs:
+          description: |
+            The collection of org instances. The order is not significant. The corresponding query constraints may result in no instances being returned.
+          type: array
+          minItems: 0
+          items:
+            $ref: "#/components/schemas/OrgDType"
+      additionalProperties: false
+    ResourceGUIDRefDType:
+      description: |
+        This is the container for reference to a OneRoster 'Resourse' object that has an allocated sourcedId (GUID).
+      type: object
+      required:
+        - href
+        - sourcedId
+        - type
+      properties:
+        href:
+          description: The URI for the type of object being referenced. Model Primitive Datatype = AnyURI.
+          type: string
+          format: uri
+        sourcedId:
+          description: The globally unique identifier of the object being referenced. Model Primitive Datatype = String.
+          type: string
+        type:
+          description: |
+            The type of object being referenced i.e. a 'resource'.
+          type: string
+          enum:
+             - resource
+      additionalProperties: false
+    RoleDType:
+      description: |
+        The container for one mapping between a role and an org for the user.
+      type: object
+      required:
+        - roleType
+        - role
+        - org
+      properties:
+        roleType:
+          description: |
+            Indicates if this role is the primary or secondary role for that org. There MUST be one, and only one, primary role for each org.
+          type: string
+          enum:
+             - primary
+             - secondary
+        role:
+          description: |
+            The role of the user in the org. The permitted values are from an enumerated list.
+          enum:
+            - aide
+            - counselor
+            - districtAdministrator
+            - guardian
+            - parent
+            - principal
+            - proctor
+            - relative
+            - siteAdministrator
+            - student
+            - systemAdministrator
+            - teacher
+        org:
+          $ref: "#/components/schemas/OrgGUIDRefDType"
+        userProfile:
+          description: The identifier for the system/tool/app access account that is relevant to this role in the org. The equivalent UserProfile should exist with a 'profileId' equal to this identifier value. Model Primitive Datatype = AnyURI.
+          type: string
+          format: uri
+        beginDate:
+          description: The start date on which the role becomes active (inclusive).  Model Primitive Datatype = Date.
+          type: string
+          format: date
+        endDate:
+          description: The end date on which the role becomes inactive (exclusive).  Model Primitive Datatype = Date.
+          type: string
+          format: date
+      additionalProperties: false
+    SingleAcademicSessionDType:
+      description: |
+        This is the container for a single academicSession instance for a message payload.
+      type: object
+      required:
+        - academicSession
+      properties:
+        academicSession:
+          $ref: "#/components/schemas/AcademicSessionDType"
+      additionalProperties: false
+    SingleClassDType:
+      description: |
+        This is the container for a single class instance for a message payload.
+      type: object
+      required:
+        - class
+      properties:
+        class:
+          $ref: "#/components/schemas/ClassDType"
+      additionalProperties: false
+    SingleCourseDType:
+      description: |
+        This is the container for a single course instance for a message payload.
+      type: object
+      required:
+        - course
+      properties:
+        course:
+          $ref: "#/components/schemas/CourseDType"
+      additionalProperties: false
+    SingleDemographicsDType:
+      description: |
+        This is the container for a single demographics instance for a message payload.
+      type: object
+      required:
+        - demographics
+      properties:
+        demographics:
+          $ref: "#/components/schemas/DemographicsDType"
+      additionalProperties: false
+    SingleEnrollmentDType:
+      description: |
+        This is the container for a single enrollment instance for a message payload.
+      type: object
+      required:
+        - enrollment
+      properties:
+        enrollment:
+          $ref: "#/components/schemas/EnrollmentDType"
+      additionalProperties: false
+    SingleOrgDType:
+      description: |
+        This is the container for a single org instance for a message payload.
+      type: object
+      required:
+        - org
+      properties:
+        org:
+          $ref: "#/components/schemas/OrgDType"
+      additionalProperties: false
+    SingleUserDType:
+      description: |
+        This is the container for a single user instance for a message payload.
+      type: object
+      required:
+        - user
+      properties:
+        user:
+          $ref: "#/components/schemas/UserDType"
+      additionalProperties: false
+    UserDType:
+      description: |
+        Users, Teachers and Students are human beings that are teaching or studying in a class respectively. A single User class is used to represent both teachers and students and a role property is used to distinguish a user's natural role.Humans may have relationships with other humans. For example, a student may have parents. The 'agents' attribute allows for relationships between humans to be expressed. Note that these are typically from the point of view of the student - so a student will link to its parents (via the agent attribute). The reverse view MUST also be modeled, so for example, a user of role 'parent' MUST have agents that are of type 'student'. Note: Teachers MUST NOT be set as agents of students i.e. the teaching relationship is covered via enrollments.
+      type: object
+      required:
+        - sourcedId
+        - status
+        - dateLastModified
+        - enabledUser
+        - givenName
+        - familyName
+        - roles
+      properties:
+        sourcedId:
+          description: The sourcedId of the object. All objects MUST be identified by a Source Identifier. This is a GUID  System ID for an object. This is the GUID that SYSTEMS will refer to when making API calls, or when needing to identify an object. It is RECOMMENDED that systems are able to map whichever local ids (e.g. database key fields) they use to SourcedId.  The sourcedId of an object is considered an addressable property of an entity and as such will not be treated as Personally Identifiable Information (PII) by certified products.  Therefore, as a part of certification, vendors will be required to declare that they will notify customers via documentation or other formal and documented agreement that sourcedIds should never contain PII in general, but particularly users. This means that if a customer includes a student name in an enrollment.sourcedId, it will not fall to any certified product to protect the enrollment.sourcedId as PII, or even the userSourcedId field in the enrollment record. Model Primitive Datatype = String.
+          type: string
+        status:
+          description: |
+            All objects MUST BE either 'active' or 'tobedeleted'.  Something which is flagged 'tobedeleted' is to be considered safe to delete. Systems can delete records that are flagged as such if they wish, but they are not under any compulsion to do so. In v1.1 the enumeration value of 'inactive' was removed and so for backwards compatibility all such marked objects should be interpreted as 'tobedeleted'.
+          type: string
+          enum:
+             - active
+             - tobedeleted
+        dateLastModified:
+          description: All objects MUST be annotated with the dateTime upon which they were last modified. This enables requesters to query for just the latest objects. DateTimes MUST be expressed in W3C profile of [ISO 8601] and MUST contain the UTC timezone. Model Primitive Datatype = DateTime.
+          type: string
+          format: date-time
+        metadata:
+          $ref: "#/components/schemas/MetadataDType"
+        userMasterIdentifier:
+          description: The master unique identifier for this user. This is NOT the same as the user's interoperability 'sourcedId'. This should be used to ensure that all of the system identifiers/accounts etc. can be reconciled to the same user. How this identifier is assigned and its format is beyond the scope of this specification. Model Primitive Datatype = NormalizedString.
+          type: string
+        username:
+          description: The user name assigned to the user. NOTE - This has been kept for backwards compatibility with OneRoster 1.1 and the new 'userProfiles' characteristic SHOULD be used instead. Model Primitive Datatype = NormalizedString.
+          type: string
+        userIds:
+          description: |
+            The set of external user identifiers that should be used for this user, if for some reason the sourcedId cannot be used. This might be an active directory id, an LTI id, or some other machine-readable identifier that is used for this person.
+          type: array
+          minItems: 0
+          items:
+            $ref: "#/components/schemas/UserIdDType"
+        enabledUser:
+          description: |
+            This is used to determine whether or not the record is active in the local system. 'false' denotes that the record is active but system access is curtailed according to the local administration rules.
+          type: string
+          enum:
+             - true
+             - false
+        givenName:
+          description: The given name. Also, known as the first name. Model Primitive Datatype = NormalizedString.
+          type: string
+        familyName:
+          description: The family name. Also, known as the last name. Model Primitive Datatype = NormalizedString.
+          type: string
+        middleName:
+          description: The set of middle names. If more than one middle name is needed separate using a space e.g. 'Wingarde Granville'. Model Primitive Datatype = NormalizedString.
+          type: string
+        preferredFirstName:
+          description: The user's preferred first name. This attribute was added in version 1.2. Model Primitive Datatype = NormalizedString.
+          type: string
+        preferredMiddleName:
+          description: The user's preferred middle name(s). This attribute was added in version 1.2. Model Primitive Datatype = NormalizedString.
+          type: string
+        preferredLastName:
+          description: The user's preferred last name. This attribute was added in version 1.2. Model Primitive Datatype = NormalizedString.
+          type: string
+        pronouns:
+          description: The pronoun(s) by which this person is referenced. Examples (in the case of English) include 'she/her/hers', 'he/him/his', 'they/them/theirs', 'ze/hir/hir', 'xe/xir', or a statement that the person's name should be used instead of any pronoun. Model Primitive Datatype = NormalizedString.
+          type: string
+        roles:
+          description: |
+            The set of roles for each of the orgs to which the user is affilliated. This is expressed as a set of role/org tuples.
+          type: array
+          minItems: 1
+          items:
+            $ref: "#/components/schemas/RoleDType"
+        userProfiles:
+          description: |
+            The set of system/app/tool profiles for the user.
+          type: array
+          minItems: 0
+          items:
+            $ref: "#/components/schemas/UserProfileDType"
+        primaryOrg:
+          $ref: "#/components/schemas/OrgGUIDRefDType"
+        identifier:
+          description: An identifier for the user. NOTE - This characteristic is kept for backwards compatibility with OneRoster 1.1/1.0. The 'userIds' characteristic SHOULD be used instead. Model Primitive Datatype = String.
+          type: string
+        email:
+          description: The email address for the user. Model Primitive Datatype = NormalizedString.
+          type: string
+        sms:
+          description: The SMS number for the user. Model Primitive Datatype = NormalizedString.
+          type: string
+        phone:
+          description: The phone number for the user. Model Primitive Datatype = NormalizedString.
+          type: string
+        agents:
+          description: |
+            The links to other people i.e. User 'sourcedIds'.
+          type: array
+          minItems: 0
+          items:
+            $ref: "#/components/schemas/UserGUIDRefDType"
+        grades:
+          description: Grade(s) for which a user with role 'student' is enrolled. The permitted vocabulary should be defined as part of the adoption and deployment process. See the Implementation Guide [OR-IMPL-12] for more details on how to define/use such a vocabulary. Model Primitive Datatype = NormalizedString.
+          type: array
+          minItems: 0
+          items:
+            type: string
+        password:
+          description: A top-level password for the user. Care should be taken when using this field and the password SHOULD be encrypted. Model Primitive Datatype = String.
+          type: string
+        resources:
+          description: |
+            The identifiers (GUIDs) for the set of resources that are to be made available to the user. These are the sourcedIds that should be used for obtaining the metadata about the resources using the OR 1.2 Resources Service [OR-RES-SM-12].
+          type: array
+          minItems: 0
+          items:
+            $ref: "#/components/schemas/ResourceGUIDRefDType"
+      additionalProperties: false
+    UserGUIDRefDType:
+      description: |
+        This is the container for reference to a OneRoster 'User' object that has an allocated sourcedId (GUID).
+      type: object
+      required:
+        - href
+        - sourcedId
+        - type
+      properties:
+        href:
+          description: The URI for the type of object being referenced. Model Primitive Datatype = AnyURI.
+          type: string
+          format: uri
+        sourcedId:
+          description: The globally unique identifier of the object being referenced. Model Primitive Datatype = String.
+          type: string
+        type:
+          description: |
+            The type of object being referenced i.e. a 'user'.
+          type: string
+          enum:
+             - user
+      additionalProperties: false
+    UserIdDType:
+      description: |
+        This is the set of external user identifiers that should be used for this user, if for some reason the sourcedId cannot be used. This might be an active directory id, an LTI id, or some other machine-readable identifier that is used for this person.
+      type: object
+      required:
+        - type
+        - identifier
+      properties:
+        type:
+          description: The type of identifier. This is no predefined vocabuary. Model Primitive Datatype = NormalizedString.
+          type: string
+        identifier:
+          description: The user identifier. Model Primitive Datatype = String.
+          type: string
+      additionalProperties: false
+    UserProfileDType:
+      description: |
+        The container for the information about a User Profile that will provide the user with access to some system, application, tool, etc.
+      type: object
+      required:
+        - profileId
+        - profileType
+        - vendorId
+      properties:
+        profileId:
+          description: The unique identifier for the profile. This does not need to be a globally unique identifier but it must be unique within the scope of the user. Model Primitive Datatype = AnyURI.
+          type: string
+          format: uri
+        profileType:
+          description: The type of profile. This should be a human readable label that has some significance in the context of the related system, app, tool, etc. Model Primitive Datatype = NormalizedString.
+          type: string
+        vendorId:
+          description: The unique identifier for the vendor of the system, tool, app, etc. which requires the use of this profile. Model Primitive Datatype = NormalizedString.
+          type: string
+        applicationId:
+          description: Identifier for the application associated with the account. The nature, and how this identifier is assigned is not defined by this specification. This may have a value of 'default' to denote this account should be used for default access to all applications related to this vendor. Model Primitive Datatype = NormalizedString.
+          type: string
+        description:
+          description: A human readable description of the use of the profile. This should not contain any security information for access to the account. Model Primitive Datatype = String.
+          type: string
+        credentials:
+          description: |
+            The set of credentials that are available for access to this profile.
+          type: array
+          minItems: 0
+          items:
+            $ref: "#/components/schemas/CredentialDType"
+      additionalProperties: false
+    UserSetDType:
+      description: |
+        This is the container for a collection of user instances for a message payload. This may be empty if no instances are found that sustain the applied query constraints. The order is not significant.
+      type: object
+      properties:
+        users:
+          description: |
+            The collection of user instances. The order is not significant. The corresponding query constraints may result in no instances being returned.
+          type: array
+          minItems: 0
+          items:
+            $ref: "#/components/schemas/UserDType"
+      additionalProperties: false
+    imsx_CodeMinorDType:
+      description: |
+        This is the container for the set of code minor status codes reported in the responses from the Service Provider.
+      type: object
+      required:
+        - imsx_codeMinorField
+      properties:
+        imsx_codeMinorField:
+          description: |
+            Each reported code minor status code.
+          type: array
+          minItems: 1
+          items:
+            $ref: "#/components/schemas/imsx_CodeMinorFieldDType"
+      additionalProperties: false
+    imsx_CodeMinorFieldDType:
+      description: |
+        This is the container for a single code minor status code.
+      type: object
+      required:
+        - imsx_codeMinorFieldName
+        - imsx_codeMinorFieldValue
+      properties:
+        imsx_codeMinorFieldName:
+          description: This should contain the identity of the system that has produced the code minor status code report. In most cases this will be the target service provider denoted as 'TargetEndSystem'. Model Primitive Datatype = NormalizedString.
+          type: string
+          default: TargetEndSystem
+        imsx_codeMinorFieldValue:
+          description: |
+            The code minor status code (this is a value from the corresponding enumerated vocabulary).
+          type: string
+          enum:
+             - fullsuccess
+             - invalid_filter_field
+             - invalid_selection_field
+             - invaliddata
+             - unauthorisedrequest
+             - forbidden
+             - server_busy
+             - unknownobject
+             - internal_server_error
+      additionalProperties: false
+    imsx_StatusInfoDType:
+      description: |
+        This is the container for the status code and associated information returned within the HTTP messages received from the Service Provider. For the OneRoster Rostering service this object will only be returned to provide information about a failed request i.e. it will NOT be in the payload for a successful request. See Appendix B for further information on the interpretation of the information contained within this class.
+      type: object
+      required:
+        - imsx_codeMajor
+        - imsx_severity
+      properties:
+        imsx_codeMajor:
+          description: |
+            The code major value (from the corresponding enumerated vocabulary). See Appendix B for further information on the interpretation of this set of codes. The permitted vocabulary for the values for the CodeMajor field.
+          type: string
+          enum:
+             - success
+             - processing
+             - failure
+             - unsupported
+        imsx_severity:
+          description: |
+            The severity value (from the corresponding enumerated vocabulary). See Appendix B for further information on the interpretation of this set of codes.
+          type: string
+          enum:
+             - status
+             - warning
+             - error
+        imsx_description:
+          description: A human readable description supplied by the entity creating the status code information. Model Primitive Datatype = String.
+          type: string
+        imsx_CodeMinor:
+          $ref: "#/components/schemas/imsx_CodeMinorDType"
+      additionalProperties: false
