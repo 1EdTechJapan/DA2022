@@ -1,4 +1,4 @@
 ---
 MIT License
-Copyright (c) 2023　Digital Agency, Government of Japan
+Copyright (c) 2023 Digital Agency, Government of Japan
 ---
